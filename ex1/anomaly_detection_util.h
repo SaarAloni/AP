@@ -1,3 +1,8 @@
+
+void printsaar() {
+	printf("saar");
+}
+
 // returns the variance of X and Y
 float var(float* x, int size);
 
@@ -11,7 +16,7 @@ class Line{
 public:
  float a,b;
 Line():a(0),b(0){}
- Line(float a, float b):a(a),b(b){}
+Line(float a, float b) :a(a), b(b) {}
  float f(float x){
   return a*x+b;
  }
