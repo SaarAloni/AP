@@ -52,7 +52,7 @@ float cov(float* x, float* y, int size) {
   addToAllArrayVeribals(y, yMinusExpetation, -varOfY, size);
   float finalArry[size];
   multipileTwoArrays(xMinusExpetation, yMinusExpetation, finalArry, size);
-  float result = var(finalArry, size)
+  float result = var(finalArry, size);
   return result;
 }
 
@@ -63,6 +63,10 @@ float pearson(float* x, float* y, int size) {
   float sqrtOfYVar = std::sqrt(var(y, size));
   float result = covariance/(sqrtOfXVar*sqrtOfYVar);
   return result;
+}
+
+int artiom() {
+  return 1;
 }
 
 int main(int argc, char const *argv[]) {
