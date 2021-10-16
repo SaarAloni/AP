@@ -2,6 +2,11 @@
 #include <iostream>
 #include <cmath>
 
+
+void printsaar() {
+    printf("saar");
+}
+
 template <typename T>
 // returns the sum of all veribales
 T sumOfArray(T* p, int size) {
@@ -42,7 +47,13 @@ float var(float* x, int size) {
   return var;
 }
 
-// returns the covariance of X and Y
+
+/*************************************************
+* Function Name: cov
+* Input: float* x, float* y, int size
+* Output: convariance result
+* Function Operation: returns the covariance of X and Y
+*************************************************/
 float cov(float* x, float* y, int size) {
   float varOfX = var(x, size);
   float varOfY = var(y, size);
@@ -52,11 +63,16 @@ float cov(float* x, float* y, int size) {
   addToAllArrayVeribals(y, yMinusExpetation, -varOfY, size);
   float finalArry[size];
   multipileTwoArrays(xMinusExpetation, yMinusExpetation, finalArry, size);
-  float result = var(finalArry, size)
+  float result = var(finalArry, size);
   return result;
 }
 
-// returns the Pearson correlation coefficient of X and Y
+/*************************************************
+* Function Name: pearson
+* Input: float* x, float* y, int size
+* Output: Pearson result
+* Function Operation: returns the Pearson correlation coefficient of X and Y
+*************************************************/
 float pearson(float* x, float* y, int size) {
   float covariance = cov(x, y, size);
   float sqrtOfXVar = std::sqrt(var(x, size));
@@ -65,6 +81,12 @@ float pearson(float* x, float* y, int size) {
   return result;
 }
 
+/*************************************************
+* Function Name: main
+* Input: int argc,
+* Output: Pearson result
+* Function Operation: returns the Pearson correlation coefficient of X and Y
+*************************************************/
 int main(int argc, char const *argv[]) {
   int arr[3] = {8,2,4};
   multipileTwoArrays<int>(arr,arr,arr,3);
