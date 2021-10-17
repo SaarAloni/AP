@@ -65,13 +65,51 @@ float pearson(float* x, float* y, int size) {
   return result;
 }
 
-int artiom() {
-  return 1;
-}
+/*
+* Function Name: linear_reg
+* Input: Point points, int size
+* Output: line equation
+* Function Operation: performs a linear regression and returns the line equation
+***/
+Line linear_reg(Point** points, int size) {
 
-int main(int argc, char const *argv[]) {
-  int arr[3] = {8,2,4};
-  multipileTwoArrays<int>(arr,arr,arr,3);
-  std::cout << arr[0];
-  return 0;
-}
+    float sumX = 0;
+    float sumY = 0;
+    float avgX = 0;
+    float avgY = 0;
+    float a = 0;
+
+    for (int i = 0; i < size; i++) {
+        sumX += points[i]->x;
+        sumY += points[i]->y;
+    }
+    avgX = sumX / size;
+    avgY = sumY / size;
+
+    a = cov(&avgX, &avgY, size) / var(&avgX, size);
+    Line l;
+    l.a = a;
+    l.b = avgY - (a * avgX);
+    return l;
+    }
+
+/*
+* Function Name: dev
+* Input: Point p, Point points, int size
+* Output: the devation
+* Function Operation: returns the deviation between point p and the line equation of the points
+***/
+    float dev(Point p, Point points, int size) {
+        Line l = linear_reg(points, size);
+        return abs(p.y - l.f(p.x));
+    }
+
+/***
+* Function Name: dev
+* Input: Point p, Line l
+* Output: the devation
+* Function Operation: returns the deviation between point p and the line
+*/
+    float dev(Point p, Line l) {
+        return abs(p.y - l.f(p.x));
+    }
