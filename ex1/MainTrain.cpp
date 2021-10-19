@@ -15,8 +15,11 @@ int main(){
 	float y[]={2.1,4.2,6.1,8.1,10.3,12.2,14.4,16.1,18.2,20.3};
 
 	Point* ps[N];
-	for(int i=0;i<N;i++)
+	for(int i=0;i<N;i++){
 		ps[i]=new Point(x[i],y[i]);
+		Point* p = new Point(4 , 5);
+	}
+
 
 	Line l=linear_reg(ps,N);
 	Point p(4,8);
@@ -33,6 +36,8 @@ int main(){
 
 	for(int i=0;i<N;i++)
 		delete ps[i];
+
+	cout << cov(x,y,N) << '\n';
 
 	cout<<"done"<<endl;
 	return 0;

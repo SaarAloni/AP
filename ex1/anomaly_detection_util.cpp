@@ -8,6 +8,7 @@
 #include "anomaly_detection_util.h"
 #include <iostream>
 #include <cmath>
+#include <stdexcept>
 
 template <typename T>
 // returns the sum of all veribales
@@ -38,6 +39,9 @@ void multipileTwoArrays (T* arryOne, T* arryTwo, T* newArry, int size) {
 
 // returns the variance of X and Y
 float var(float* x, int size) {
+  if (size == 0) {
+    return 0;
+  }
   float n = 1/(float) size;
   float sum = sumOfArray<float>(x, size);
   float expetation = n * sum;
@@ -51,6 +55,9 @@ float var(float* x, int size) {
 
 // returns the covariance of X and Y
 float cov(float* x, float* y, int size) {
+  if (size == 0) {
+    return 0;
+  }
   float n = 1/(float) size;
   float expetationOfX = sumOfArray<float>(x, size) * n;
   float expetationOfY = sumOfArray<float>(y, size) * n;
@@ -67,6 +74,9 @@ float cov(float* x, float* y, int size) {
 // returns the Pearson correlation coefficient of X and Y
 float pearson(float* x, float* y, int size) {
   float covariance = cov(x, y, size);
+  if (var(x, size) <= 0 || var(y, size) >= 0) {
+
+  }
   float sqrtOfXVar = std::sqrt(var(x, size));
   float sqrtOfYVar = std::sqrt(var(y, size));
   float result = covariance/(sqrtOfXVar*sqrtOfYVar);
@@ -80,7 +90,11 @@ float pearson(float* x, float* y, int size) {
 * Function Operation: performs a linear regression and returns the line equation
 ***/
 Line linear_reg(Point** points, int size) {
-
+  try {
+    1/size;
+  } catch (const std::exception& e) {
+    throw;
+  }
   float sumX = 0;
   float sumY = 0;
   float avgX = 0;
@@ -113,7 +127,7 @@ Line linear_reg(Point** points, int size) {
 ***/
 float dev(Point p, Point** points, int size) {
     Line l = linear_reg(points, size);
-    return abs(p.y - l.f(p.x));
+    return std::abs(p.y - l.f(p.x));
 }
 
 /***
@@ -123,5 +137,5 @@ float dev(Point p, Point** points, int size) {
 * Function Operation: returns the deviation between point p and the line
 */
 float dev(Point p, Line l) {
-  return abs(p.y - l.f(p.x));
+  return std::abs(p.y - l.f(p.x));
 }

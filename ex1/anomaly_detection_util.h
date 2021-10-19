@@ -1,4 +1,4 @@
-
+#include <iostream>
 // returns the variance of X and Y
 float var(float* x, int size);
 
@@ -21,7 +21,8 @@ Line():a(0),b(0){}
 class Point{
 public:
  float x,y;
- Point(float x, float y):x(x),y(x){}
+ Point(float x, float y):x(x),y(y){
+ }
 };
 
 // performs a linear regression and return s the line equation
