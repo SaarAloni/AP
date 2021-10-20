@@ -37,7 +37,12 @@ void multipileTwoArrays (T* arryOne, T* arryTwo, T* newArry, int size) {
   }
 }
 
-// returns the variance of X and Y
+/*
+* Function Name: var
+* Input: float* x, float* y, int size
+* Output: the variance of X and Y
+* Function Operation: returns the variance of X and Y
+*/
 float var(float* x, int size) {
   if (size == 0) {
     return 0;
@@ -53,7 +58,12 @@ float var(float* x, int size) {
   return result;
 }
 
-// returns the covariance of X and Y
+/*
+* Function Name: cov
+* Input: float* x, float* y, int size
+* Output: the covariance of X and Y
+* Function Operation: returns the covariance of X and Y
+*/
 float cov(float* x, float* y, int size) {
   if (size == 0) {
     return 0;
@@ -71,7 +81,12 @@ float cov(float* x, float* y, int size) {
   return result;
 }
 
-// returns the Pearson correlation coefficient of X and Y
+/*
+* Function Name: pearson
+* Input: float* x, float* y, int size
+* Output: the pearson result
+* Function Operation: returns the Pearson correlation coefficient of X and Y
+*/
 float pearson(float* x, float* y, int size) {
   float covariance = cov(x, y, size);
   if (var(x, size) <= 0 || var(y, size) >= 0) {
@@ -124,7 +139,7 @@ Line linear_reg(Point** points, int size) {
 * Input: Point p, Point points, int size
 * Output: the devation
 * Function Operation: returns the deviation between point p and the line equation of the points
-***/
+*/
 float dev(Point p, Point** points, int size) {
     Line l = linear_reg(points, size);
     return std::abs(p.y - l.f(p.x));
