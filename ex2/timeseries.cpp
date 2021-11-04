@@ -10,7 +10,7 @@ public:
 	}
 
   int getLength() {
-    return length;
+    return this->length;
   }
 
   int * getColumn(int index) {
