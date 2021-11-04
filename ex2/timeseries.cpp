@@ -1,3 +1,5 @@
+#include <iostream>
+
 class TimeSeries{
 // Create a vector of <string, int vector> pairs to store the result
 char std::vector<std::pair<std::string, std::vector<int>>> result;
@@ -32,10 +34,10 @@ public:
         // Extract each column name
         while(std::getline(ss, colname, ',')){
 						//editing the number of columns
-						colLength++;
+						rowLength++;
 
             // Initialize and add <colname, int vector> pairs to result
-            result.push_back({colname, std::vector<int> {}});
+            this->result.push_back({colname, std::vector<int> {}});
         }
     }
 
@@ -55,7 +57,7 @@ public:
         while(ss >> val){
 
             // Add the current integer to the 'colIdx' column's values vector
-            result.at(colIdx).second.push_back(val);
+            this->result.at(colIdx).second.push_back(val);
 
             // If the next token is a comma, ignore it and move on
             if(ss.peek() == ',') ss.ignore();
@@ -67,22 +69,41 @@ public:
 
     // Close file
     myFile.close();
-
-    return result;
 }
 	}
-
+	// returns numbers of columns
   int getColumnLength() {
     return this->colLength;
   }
 
+
+	// returns numbers of rowa
 	int getRowLength() {
 		return this->rowLength;
 	}
 
-  std::vector<int> getColumn(int index) {
-		   return result[index];
+	// returns spacific column by index
+  const std::pair<std::string, std::vector<int>> getColumnByIndex(int index) {
+		   return this->result.at(index);
   }
 
+	// returns spacific column by name
+	const std::vector<int> getColumnByName(std::string name) {
+		for (int i = 0; i < this->rowLength; i++)
+		{
+			if (this->result.at(i).first.compare(name) == 0)
+			{
+				return this->result.at(i).second;
+			}
+		}
+		return std::vector<int> v = {};
+	}
 
+	// returns spacific column by row and column
+  const int getColumnByIndex(int column, ind row) {
+		   if(row > this->colLength || column > this->rowLength || column < 0 || row < 0) {
+				 std::runtime_error("column or row not ok please choose other values");
+			 }
+			 return this->result.at(column).second.at(row);
+  }
 }
