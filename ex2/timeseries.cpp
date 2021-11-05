@@ -2,7 +2,7 @@
 
 class TimeSeries{
 // Create a vector of <string, int vector> pairs to store the result
-char std::vector<std::pair<std::string, std::vector<int>>> result;
+char std::vector<std::pair<std::string, std::vector<double>>> result;
 int colLength;
 int rowLength;
 
@@ -34,10 +34,10 @@ public:
         // Extract each column name
         while(std::getline(ss, colname, ',')){
 						//editing the number of columns
-						rowLength++;
+						this->rowLength++;
 
             // Initialize and add <colname, int vector> pairs to result
-            this->result.push_back({colname, std::vector<int> {}});
+            this->result.push_back({colname, std::vector<double> {}});
         }
     }
 
@@ -45,7 +45,7 @@ public:
     while(std::getline(myFile, line))
     {
 				//editing the number of columns
-				colLength++;
+				this->colLength++;
 
         // Create a stringstream of the current line
         std::stringstream ss(line);
@@ -77,29 +77,29 @@ public:
   }
 
 
-	// returns numbers of rowa
+	// returns numbers of rows
 	int getRowLength() {
 		return this->rowLength;
 	}
 
 	// returns spacific column by index
-  const std::pair<std::string, std::vector<int>> getColumnByIndex(int index) {
+  const std::pair<std::string, std::vector<double>> getColumnByIndex(int index) {
 		   return this->result.at(index);
   }
 
 	// returns spacific column by name
-	const std::vector<int> getColumnByName(std::string name) {
-		for (std::vector<int>::iterator it = this->result.begin() ; it != this->result.end(); ++it) {
+	const std::vector<double> getColumnByName(std::string name) {
+		for (std::vector<double>::iterator it = this->result.begin() ; it != this->result.end(); ++it) {
 			if (it.first.compare(name) == 0)
 			{
 				return it.second;
 			}
 		}
-		return std::vector<int> v = {};
+		return std::vector<double> v = {};
 	}
 
 	// returns spacific column by row and column
-  const int getColumnByIndex(int column, ind row) {
+  const double getColumnByIndex(int column, ind row) {
 		   if(row > this->colLength || column > this->rowLength || column < 0 || row < 0) {
 				 std::runtime_error("column or row not ok please choose other values");
 			 }
