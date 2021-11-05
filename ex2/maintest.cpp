@@ -9,5 +9,15 @@
 #include <math.h>
 
 int main() {
-  TimeSeries t = new TimeSeries("testcsv")
+  TimeSeries t("testcsv.csv");
+  std::cout << t.getRowLength() << "\n";
+  std::cout << t.getColumnLength() << "\n";
+  std::cout << t.getColumnByName("size1").at(1) << "\n";
+  try {
+      std::cout << t.getColumnByIndex(0,0)<< "\n";
+  }
+  catch (invalid_argument& e) {
+    std::cerr << e.what() << '\n';
+    return -1;
+  }
 }
