@@ -1,19 +1,22 @@
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <sstream>
 
 class TimeSeries{
 // Create a vector of <string, int vector> pairs to store the result
-char std::vector<std::pair<std::string, std::vector<double>>> result;
-int colLength;
-int rowLength;
+std::vector<std::pair<std::string, std::vector<double>>> result = {};
+int colLength {0};
+int rowLength {0};
 
 public:
 
-	TimeSeries(const char* CSVfileName) : colLength = 0, rowLength = 0, result ={} {
+	TimeSeries(const char* CSVfileName) {
     // Reads a CSV file into a vector of <string, vector<int>> pairs where
     // each pair represents <column name, column values>
 
     // Create an input filestream
-    std::ifstream myFile(filename);
+    std::ifstream myFile(CSVfileName);
 
     // Make sure the file is open
     if(!myFile.is_open()) throw std::runtime_error("Could not open file");
@@ -69,7 +72,6 @@ public:
 
     // Close file
     myFile.close();
-}
 	}
 	// returns numbers of columns
   int getColumnLength() {
@@ -89,20 +91,27 @@ public:
 
 	// returns spacific column by name
 	const std::vector<double> getColumnByName(std::string name) {
-		for (std::vector<double>::iterator it = this->result.begin() ; it != this->result.end(); ++it) {
-			if (it.first.compare(name) == 0)
-			{
-				return it.second;
+		// for (std::pair<std::string, std::vector<double>>::iterator it = this->result.begin() ; it != this->result.end(); ++it) {
+		// 	auto col = it;
+		// 	if (col.first.compare(name) == 0)
+		// 	{
+		// 		return col.second;
+		// 	}
+		// }
+		for(int i = 0; i < getRowLength();i++) {
+			if(this->result.at(i).first.compare(name) == 0) {
+				return result.at(i).second;
 			}
 		}
-		return std::vector<double> v = {};
+		const std::vector<double> v = {};
+		return v;
 	}
 
 	// returns spacific column by row and column
-  const double getColumnByIndex(int column, ind row) {
+  const double getColumnByIndex(int column, int row) {
 		   if(row > this->colLength || column > this->rowLength || column < 0 || row < 0) {
 				 std::runtime_error("column or row not ok please choose other values");
 			 }
 			 return this->result.at(column).second.at(row);
   }
-}
+};
