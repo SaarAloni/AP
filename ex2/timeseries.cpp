@@ -89,6 +89,12 @@ public:
 
 	// returns spacific column by name
 	const std::vector<int> getColumnByName(std::string name) {
+		for (std::vector<int>::iterator it = this->result.begin() ; it != this->result.end(); ++it) {
+			if (it.first.compare(name) == 0)
+			{
+				return it.second;
+			}
+		}
 		for (int i = 0; i < this->rowLength; i++)
 		{
 			if (this->result.at(i).first.compare(name) == 0)
