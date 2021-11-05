@@ -95,13 +95,6 @@ public:
 				return it.second;
 			}
 		}
-		for (int i = 0; i < this->rowLength; i++)
-		{
-			if (this->result.at(i).first.compare(name) == 0)
-			{
-				return this->result.at(i).second;
-			}
-		}
 		return std::vector<int> v = {};
 	}
 
