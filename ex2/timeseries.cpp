@@ -69,18 +69,18 @@
     myFile.close();
 	}
 	// // returns numbers of columns
-  int TimeSeries::getColumnLength() {
+  int TimeSeries::getColumnLength() const{
     return this->colLength;
   }
 
 
 	// returns numbers of rows
-	int TimeSeries::getRowLength() {
+	 int TimeSeries::getRowLength() const{
 		return this->rowLength;
 	}
 
 	// returns spacific column by index
-  const std::pair<std::string, std::vector<double>> TimeSeries::getColumnByIndex(int index) {
+  const std::pair<std::string, std::vector<double>> TimeSeries::getColumnByIndex(int index) const{
 		   return this->result.at(index);
   }
 
