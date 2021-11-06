@@ -1,5 +1,6 @@
 
 #include "SimpleAnomalyDetector.h"
+#include "timeseries.h"
 
 SimpleAnomalyDetector::SimpleAnomalyDetector() {
 	// TODO Auto-generated constructor stub
