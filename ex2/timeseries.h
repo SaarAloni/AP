@@ -8,7 +8,7 @@ using namespace std;
 
 class TimeSeries{
 
-	std::vector<std::pair<std::string, std::vector<double>>> result = {};
+	std::vector<std::pair<std::string, std::vector<float>>> result = {};
 	int colLength = 0;
 	int rowLength = 0;
 
@@ -17,9 +17,9 @@ public:
 	TimeSeries(const char* CSVfileName);
 	int getRowLength() const;
 	int getColumnLength() const;
-	const std::pair<std::string, std::vector<double>> getColumnByIndex(int index) const;
-	const std::vector<double> getColumnByName(std::string name);
-	const double getColumnByIndex(int column, int row);
+	const std::pair<std::string, std::vector<float>> getColumnByIndex(int index) const;
+	const std::vector<float> getColumnByName(std::string name);
+	const float getColumnByIndex(int column, int row);
 
 };
 
