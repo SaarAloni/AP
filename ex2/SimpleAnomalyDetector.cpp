@@ -16,13 +16,12 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
 
       for (int i = 0; i < ts.getColumnLength(); i++) {
           float p = 0;
-          float* a = &(ts.getColumnByIndex(i).second[0]);
           float core = 0;
           float max = 0;
           int index = -1;
           for (int j = i + 1; j <  ts.getColumnLength(); j++) {
-              const float* a = &(ts.getColumnByIndex(i).second[0]);
-              const float* b = &(ts.getColumnByIndex(j).second[0]);
+              float* a = &(ts.getColumnByIndex(i).second[0]);
+              float* b = &(ts.getColumnByIndex(j).second[0]);
               p = abs(pearson(a, b, ts.getColumnLength()));
               if (p > core) {
                   core = p;
