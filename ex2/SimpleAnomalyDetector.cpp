@@ -3,7 +3,7 @@
 #include "timeseries.h"
 #include <cmath>
 
-SimpleAnomalyDetector::SimpleAnomalyDetector() {
+SimpleAnomalyDetector::SimpleAnomalyDetector(): cf()  {
 	// TODO Auto-generated constructor stub
 }
 
