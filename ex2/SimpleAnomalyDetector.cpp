@@ -27,19 +27,21 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
               }Line linear_reg(float* x, float* y, int size);
           }
           if (index != -1) {
-              this->cf[i].corrlation = core;
-              this->cf[i].feature1 = ts.getColumnByIndex(i).first;
-              this->cf[i].feature2 = ts.getColumnByIndex(index).first;
-              this->cf[i].lin_reg = linear_reg(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(index).second[0]), ts.getRowLength());
+              correlatedFeatures c;
+              c.corrlation = core;
+              c.feature1 = ts.getColumnByIndex(i).first;
+              c.feature2 = ts.getColumnByIndex(index).first;
+              c.lin_reg = linear_reg(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(index).second[0]), ts.getRowLength());
 
               for (int j = 0; j < ts.getRowLength(); j++) {
                   Point point = Point(ts.getColumnByIndex(i).second[j], ts.getColumnByIndex(index).second[j]);
-                  float devation = dev(point, this->cf[i].lin_reg);
+                  float devation = dev(point, c.lin_reg);
                   if (devation > max) {
                       max = devation;
                   }
               }
-              this->cf[i].threshold = max * 1.1;
+              c.threshold = max * 1.1;
+              this->cf.push_back(c);
           }
       }
     // TODO Auto-generated destructor stub
