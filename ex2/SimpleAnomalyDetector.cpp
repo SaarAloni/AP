@@ -20,19 +20,17 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
           float max = 0;
           int index = -1;
           for (int j = i + 1; j <  ts.getColumnLength(); j++) {
-              float* a = &(ts.getColumnByIndex(i).second[0]);
-              float* b = &(ts.getColumnByIndex(j).second[0]);
-              p = abs(pearson(a, b, ts.getColumnLength()));
+              p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getColumnLength()));
               if (p > core) {
                   core = p;
                   index = j;
-              }
+              }Line linear_reg(float* x, float* y, int size);
           }
           if (index != -1) {
               this->cf[i].corrlation = core;
               this->cf[i].feature1 = ts.getColumnByIndex(i).first;
               this->cf[i].feature2 = ts.getColumnByIndex(index).first;
-              this->cf[i].lin_reg = linear_reg((a, a), ts.getRowLength());
+              this->cf[i].lin_reg = linear_reg(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(index).second[0]), ts.getRowLength());
 
               for (int j = 0; j < ts.getRowLength(); j++) {
                   Point point = Point(ts.getColumnByIndex(i).second[j], ts.getColumnByIndex(index).second[j]);
@@ -44,7 +42,7 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
               this->cf[i].threshold = max * 1.1;
           }
       }
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 vector<AnomalyReport> SimpleAnomalyDetector::detect(const TimeSeries& ts){

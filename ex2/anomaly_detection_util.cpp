@@ -120,6 +120,38 @@ Line linear_reg(Point** points, int size) {
 }
 
 /*
+* Function Name: linear_reg
+* Input: 2 float array, int size
+* Output: line equation
+* Function Operation: performs a linear regression and returns the line equation
+**/
+Line linear_reg(float x, float* y, int size) {
+  try {
+    1/size;
+  } catch (const std::exception& e) {
+    throw;
+  }
+  float sumX = 0;
+  float sumY = 0;
+  float avgX = 0;
+  float avgY = 0;
+  float a = 0;
+  for (int i = 0; i < size; i++) {
+      sumX += x[i];
+      sumY += y[i];
+  }
+  avgX = sumX / size;
+  avgY = sumY / size;
+
+
+  a = cov(x, y, size) / var(x, size);
+  Line l;
+  l.a = a;
+  l.b = avgY - (a * avgX);
+  return l;
+}
+
+/*
 * Function Name: dev
 * Input: Point p, Point points, int size
 * Output: the devation
