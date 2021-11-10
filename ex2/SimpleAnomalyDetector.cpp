@@ -63,4 +63,5 @@ vector<AnomalyReport> SimpleAnomalyDetector::detect(const TimeSeries& ts){
       }
     }
   }
+  return report;
 }
