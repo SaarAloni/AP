@@ -18,8 +18,8 @@ public:
 	int getRowLength() const;
 	int getColumnLength() const;
 	std::pair<std::string, std::vector<float>> getColumnByIndex(int index) const;
-	std::vector<float> getColumnByName(std::string name);
-	float getColumnByIndex(int column, int row);
+	std::vector<float> getColumnByName(std::string name) const;
+	float getColumnByIndex(int column, int row) const;
 
 };
 

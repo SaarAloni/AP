@@ -85,7 +85,7 @@
   }
 
 	// returns spacific column by name
-	std::vector<float> TimeSeries::getColumnByName(std::string name) {
+	std::vector<float> TimeSeries::getColumnByName(std::string name) const{
 		for(int i = 0; i < getRowLength();i++) {
 			if(this->result.at(i).first.compare(name) == 0) {
 				return result.at(i).second;
@@ -96,7 +96,7 @@
 	}
 
 	// returns spacific column by row and column
-  float TimeSeries::getColumnByIndex(int column, int row) {
+  float TimeSeries::getColumnByIndex(int column, int row) const{
 		   if(row > this->colLength || column > this->rowLength || column < 0 || row < 0) {
 				 std::cout << this->colLength << "\n";
 				 std::cout << this->rowLength << "\n";
