@@ -13,18 +13,19 @@ SimpleAnomalyDetector::~SimpleAnomalyDetector() {
 
 
 void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
-      for (int i = 0; i < ts.getRowLength(); i++) {
-          float p = 0;
-          float core = 0;
-          float max = 0;
-          int index = -1;
-          for (int j = i + 1; j <  ts.getRowLength(); j++) {
-              p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getRowLength()));
-              if (p > core) {
-                  core = p;
-                  index = j;
+    float threshold = 0.9;
+    for (int i = 0; i < ts.getRowLength(); i++) {
+        float p = 0;
+        float core = 0;
+        float max = 0;
+        int index = -1;
+        for (int j = i + 1; j <  ts.getRowLength(); j++) {
+            p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getRowLength()));
+            if (p > core && p > threshold) {
+                core = p;
+                index = j;
               }
-          }
+            }
           if (index != -1) {
               correlatedFeatures c;
               c.corrlation = core;
