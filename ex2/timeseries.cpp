@@ -18,7 +18,7 @@
 
     // Helper vars
     std::string line, colname;
-    int val;
+    float val;
 
     // Read the column names
     if(myFile.good())

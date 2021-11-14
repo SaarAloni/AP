@@ -19,7 +19,7 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
           float core = 0;
           float max = 0;
           int index = -1;
-          for (int j = i + 1; j <  ts.getRowLength() - 1; j++) {
+          for (int j = i + 1; j <  ts.getRowLength(); j++) {
               p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getRowLength()));
               if (p > core) {
                   core = p;
@@ -44,14 +44,17 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
               this->cf.push_back(c);
           }
       }
+
     // TODO Auto-generated destructor stub
 }
 
 vector<AnomalyReport> SimpleAnomalyDetector::detect(const TimeSeries& ts){
   std::vector<AnomalyReport> report = {};
     for (int i = 0; i < this->cf.size(); i++) {
+
       std::vector<float> column1 = ts.getColumnByName(this->cf.at(i).feature1);
       std::vector<float> column2 = ts.getColumnByName(this->cf.at(i).feature2);
+
       for (int j = 0; j < column1.size(); j++) {
         Point p = Point(column1.at(j), column2.at(j));
         float deviation = dev(p, this->cf.at(i).lin_reg);
@@ -60,5 +63,6 @@ vector<AnomalyReport> SimpleAnomalyDetector::detect(const TimeSeries& ts){
         }
     }
   }
+
   return report;
 }
