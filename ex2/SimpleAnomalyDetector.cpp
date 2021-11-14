@@ -51,15 +51,13 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
 vector<AnomalyReport> SimpleAnomalyDetector::detect(const TimeSeries& ts){
   std::vector<AnomalyReport> report = {};
     for (int i = 0; i < this->cf.size(); i++) {
-
       std::vector<float> column1 = ts.getColumnByName(this->cf.at(i).feature1);
       std::vector<float> column2 = ts.getColumnByName(this->cf.at(i).feature2);
-
       for (int j = 0; j < column1.size(); j++) {
         Point p = Point(column1.at(j), column2.at(j));
         float deviation = dev(p, this->cf.at(i).lin_reg);
         if (deviation>= this->cf.at(i).threshold) {
-          report.push_back(AnomalyReport(string(cf.at(i).feature1 + "-" + cf.at(i).feature2), j));
+          report.push_back(AnomalyReport(string(cf.at(i).feature1 + "-" + cf.at(i).feature2), j+1));
         }
     }
   }
