@@ -18,7 +18,7 @@
 
     // Helper vars
     std::string line, colname;
-    int val;
+    float val;
 
     // Read the column names
     if(myFile.good())
@@ -94,6 +94,8 @@
 		const std::vector<float> v = {};
 		return v;
 	}
+
+	
 
 	// returns spacific column by row and column
   float TimeSeries::getColumnByIndex(int column, int row) const{

@@ -43,8 +43,9 @@ void generateTestCSV(float a1,float b1, float a2, float b2, int anomaly){
 
 void checkCorrelationTrain(correlatedFeatures c,string f1, string f2, float a, float b){
 	if(c.feature1==f1){
-		if(c.feature2!=f2)
+		if(c.feature2!=f2){
 			cout<<"wrong correlated feature of "<<f1<<" (-20)"<<endl;
+		}
 		else{
 			if(c.corrlation<0.99)
 				cout<<f1<<"-"<<f2<<" wrong correlation detected (-5)"<<endl;
