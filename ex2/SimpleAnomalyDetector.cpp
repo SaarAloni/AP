@@ -14,13 +14,13 @@ SimpleAnomalyDetector::~SimpleAnomalyDetector() {
 
 void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
 
-      for (int i = 0; i < ts.getColumnLength(); i++) {
+      for (int i = 0; i < ts.getRowLength(); i++) {
           float p = 0;
           float core = 0;
           float max = 0;
           int index = -1;
-          for (int j = i + 1; j <  ts.getColumnLength(); j++) {
-              p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getColumnLength()));
+          for (int j = i + 1; j <  ts.getRowLength() - 1; j++) {
+              p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getRowLength()));
               if (p > core) {
                   core = p;
                   index = j;
@@ -31,9 +31,9 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
               c.corrlation = core;
               c.feature1 = ts.getColumnByIndex(i).first;
               c.feature2 = ts.getColumnByIndex(index).first;
-              c.lin_reg = linear_reg(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(index).second[0]), ts.getRowLength());
+              c.lin_reg = linear_reg(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(index).second[0]), ts.getColumnLength());
 
-              for (int j = 0; j < ts.getRowLength(); j++) {
+              for (int j = 0; j < ts.getColumnLength(); j++) {
                   Point point = Point(ts.getColumnByIndex(i).second[j], ts.getColumnByIndex(index).second[j]);
                   float devation = dev(point, c.lin_reg);
                   if (devation > max) {
