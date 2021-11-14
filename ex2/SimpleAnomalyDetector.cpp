@@ -24,7 +24,7 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
               if (p > core) {
                   core = p;
                   index = j;
-              }Line linear_reg(float* x, float* y, int size);
+              }
           }
           if (index != -1) {
               correlatedFeatures c;
