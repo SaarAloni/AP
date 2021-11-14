@@ -19,7 +19,7 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
           float core = 0;
           float max = 0;
           int index = -1;
-          for (int j = i + 1; j <  ts.getColumnLength(); j++) {
+          for (int j = i + 1; j <  ts.getColumnLength() - 1; j++) {
               p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getColumnLength()));
               if (p > core) {
                   core = p;
@@ -32,7 +32,6 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
               c.feature1 = ts.getColumnByIndex(i).first;
               c.feature2 = ts.getColumnByIndex(index).first;
               c.lin_reg = linear_reg(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(index).second[0]), ts.getRowLength());
-
               for (int j = 0; j < ts.getRowLength(); j++) {
                   Point point = Point(ts.getColumnByIndex(i).second[j], ts.getColumnByIndex(index).second[j]);
                   float devation = dev(point, c.lin_reg);
