@@ -9,15 +9,11 @@
 #include <math.h>
 
 int main() {
-  TimeSeries t("testcsv.csv");
-  std::cout << t.getRowLength() << "\n";
-  std::cout << t.getColumnLength() << "\n";
-  std::cout << t.getColumnByName("size1").at(1) << "\n";
-  try {
-      std::cout << t.getColumnByIndex(0,0)<< "\n";
-  }
-  catch (invalid_argument& e) {
-    std::cerr << e.what() << '\n';
-    return -1;
+  TimeSeries t("testFile1.csv");
+  for (int i = 0; i < t.getColumnLength() ;i++) {
+    for (size_t j = 0; j < t.getRowLength(); j++) {
+      std::cout << t.getColumnByIndex(j,i) << ",";
+    }
+    std::cout << '\n';
   }
 }

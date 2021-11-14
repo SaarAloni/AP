@@ -95,6 +95,8 @@
 		return v;
 	}
 
+	
+
 	// returns spacific column by row and column
   float TimeSeries::getColumnByIndex(int column, int row) const{
 		   if(row > this->colLength || column > this->rowLength || column < 0 || row < 0) {
