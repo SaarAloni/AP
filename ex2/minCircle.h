@@ -28,10 +28,10 @@ int isInsideCircle(Circle c, Point p);
 
 int isInsideCircle(Circle c, float x, float y);
 
-float distanceBetween2Points(Point p1, Point p2);
+//float distanceBetween2Points(Point p1, Point p2);
 
 Circle findCirclefrom3Points(Point p1, Point p2, Point p3);
 
-std::vector<Point> pointOutsideCircle(Circle c, Point** points);
+//std::vector<Point> pointOutsideCircle(Circle c, Point** points);
 
 #endif /* MINCIRCLE_H_ */
