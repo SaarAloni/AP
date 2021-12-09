@@ -28,7 +28,13 @@ int isInsideCircle(Circle c, Point p);
 
 int isInsideCircle(Circle c, float x, float y);
 
-//float distanceBetween2Points(Point p1, Point p2);
+float distanceBetween2Points(Point p1, Point p2);
+
+Point centerbetween2Points(Point p1, Point p2);
+
+Circle findCirclefrom1Point(Point p);
+
+Circle findCirclefrom2Points(Point p1, Point p2);
 
 Circle findCirclefrom3Points(Point p1, Point p2, Point p3);
 

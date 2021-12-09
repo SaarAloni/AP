@@ -19,6 +19,31 @@ int isInsideCircle(Circle c, float x, float y) {
      return 1;
 }
 
+// returns the distance Between 2 Points
+float distanceBetween2Points(Point p1, Point p2) {
+  return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y, p2.y, 2));
+}
+
+Point centerbetween2Points(Point p1, Point p2) {
+  point p;
+  p.x = (p1.x + p2.x) / 2;
+  p.y = (p1.y + p2.y) / 2;
+  return p;
+}
+
+Circle findCirclefrom1Point(Point p) {
+  circle c;
+  c.radius = 0;
+  c.center = p;
+}
+
+Circle findCirclefrom2Points(Point p1, Point p2) {
+  circle c;
+  c.radius = distanceBetween2Points(p1, p2) / 2.0;
+  c.center = centerbetween2Points(p1, p2);
+}
+
+
 // create a circle from 3 point using 3 equation.
 Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
   float resultX, resultY, resultR;
