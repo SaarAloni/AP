@@ -24,7 +24,11 @@ public:
 Circle findMinCircle(Point** points,size_t size);
 
 // you can add here additional methods
+Circle welzlMinCircle(vector<Point> points, vector<Point> r);
+
 int isInsideCircle(Circle c, Point p);
+
+Circle calcCircle(vector<Point> r);
 
 int isInsideCircle(Circle c, float x, float y);
 

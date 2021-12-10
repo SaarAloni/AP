@@ -65,3 +65,30 @@ Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
   c.radius = resultR;
   return c;
 }
+
+Circle findMinCircle(Point** points,size_t size) {
+  return (welzlMinCircle(&points, NULL));
+}
+
+Circle calcCircle(vector<Point> r) {
+  if (r.empty()) {
+    // should not happen
+    return NULL;
+  }
+  if (r.size() >= 3) {
+    return findCirclefrom3Points(r[0], r[1], r[2]);
+  }
+  if (r.size() == 2) {
+    return findCirclefrom2Points(r[0], r[1]);
+  }
+  if (r.size() == 1) {
+    return findCirclefrom1Point(r[0]);
+  }
+}
+
+Circle welzlMinCircle(vector<Point> points, vector<Point> r) {
+
+  if (points.empty() || r.size() >= 3) {
+
+  }
+}
