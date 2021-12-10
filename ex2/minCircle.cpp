@@ -21,7 +21,7 @@ int isInsideCircle(Circle c, float x, float y) {
 
 // returns the distance Between 2 Points
 float distanceBetween2Points(Point p1, Point p2) {
-  return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y, p2.y, 2));
+  return std::sqrt(std::pow(p1.x - p2.x, 2) + std::pow(p1.y, p2.y, 2));
 }
 
 Point centerbetween2Points(Point p1, Point p2) {
@@ -53,12 +53,12 @@ Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
   factorY1 = (p1.y * 2.0) - (p2.y * 2.0);
   factorX2 = (p3.x * 2.0) - (p2.x * 2.0);
   factorY2 = (p3.y * 2.0) - (p2.y * 2.0);
-  cons1 = pow(p1.x, 2) - pow(p2.x, 2) + pow(p1.y,2) - pow(p2.y, 2);
-  cons2 = pow(p3.x, 2) - pow(p2.x, 2) + pow(p3.y,2) - pow(p2.y, 2);
+  cons1 = std::pow(p1.x, 2) - std::pow(p2.x, 2) + std::pow(p1.y,2) - std::pow(p2.y, 2);
+  cons2 = std::pow(p3.x, 2) - std::pow(p2.x, 2) + std::pow(p3.y,2) - std::pow(p2.y, 2);
   resultX = ((cons1 * (factorY2 / factorY1)) - cons2) /
    ((factorX1 * (factorY2 / factorY1)) - factorX2);
   resultY = (cons1 - (resultX * factorX1)) / (factorY1);
-  resultR = sqrt(pow(p1.x - resultX, 2) + pow(p1.y - resultY, 2));
+  resultR = std::sqrt(std::pow(p1.x - resultX, 2) + std::pow(p1.y - resultY, 2));
   Circle c;
   c.center.x = resultX;
   c.center.y = resultY;
@@ -86,9 +86,19 @@ Circle calcCircle(vector<Point> r) {
   }
 }
 
-Circle welzlMinCircle(vector<Point> points, vector<Point> r) {
-
-  if (points.empty() || r.size() >= 3) {
-
+Circle welzlMinCircle(vector<Point> points, int index, vector<Point> r) {
+  Circle c;
+  //if (points.empty() || r.size() >= 3)
+  if (index < 0 || r.size() >= 3) {
+    c = calcCircle(r);
+    r.pop_back();
+    return c;
+    //return calcCircle(r);
   }
+  c = welzlMinCircle(points, index - 1, r);
+  if (isInsideCircle(c, points[index])) {
+    return c;
+  }
+  r.push_back(points.at(index));
+  welzlMinCircle(points, index - 1, r);
 }
