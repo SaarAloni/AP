@@ -21,8 +21,8 @@ Line():a(0),b(0){}
 class Point{
 public:
  float x,y;
- Point(float x, float y):x(x),y(y){
- }
+ Point(float x, float y):x(x),y(y){}
+ Point():x(0),y(0){}
 };
 
 // performs a linear regression and return s the line equation
