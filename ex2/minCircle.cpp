@@ -21,24 +21,24 @@ int isInsideCircle(Circle c, float x, float y) {
 
 // returns the distance Between 2 Points
 float distanceBetween2Points(Point p1, Point p2) {
-  return std::sqrt(std::pow(p1.x - p2.x, 2) + std::pow(p1.y, p2.y, 2));
+  return std::sqrt(std::pow(p1.x - p2.x, 2) + std::pow(p1.y - p2.y, 2));
 }
 
 Point centerbetween2Points(Point p1, Point p2) {
-  point p;
+  Point p;
   p.x = (p1.x + p2.x) / 2;
   p.y = (p1.y + p2.y) / 2;
   return p;
 }
 
 Circle findCirclefrom1Point(Point p) {
-  circle c;
+  Circle c;
   c.radius = 0;
   c.center = p;
 }
 
 Circle findCirclefrom2Points(Point p1, Point p2) {
-  circle c;
+  Circle c;
   c.radius = distanceBetween2Points(p1, p2) / 2.0;
   c.center = centerbetween2Points(p1, p2);
 }
@@ -67,13 +67,19 @@ Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
 }
 
 Circle findMinCircle(Point** points,size_t size) {
-  return (welzlMinCircle(&points, NULL));
+  std::vector<Point> p;
+  std::vector<Point> r;
+  for (int i = 0; i < size; i++) {
+    p.push_back(*points[i]);
+  }
+  return (welzlMinCircle(p, size, r));
 }
 
 Circle calcCircle(vector<Point> r) {
   if (r.empty()) {
     // should not happen
-    return NULL;
+    Circle c;
+    return c;
   }
   if (r.size() >= 3) {
     return findCirclefrom3Points(r[0], r[1], r[2]);
@@ -86,7 +92,7 @@ Circle calcCircle(vector<Point> r) {
   }
 }
 
-Circle welzlMinCircle(vector<Point> points, int index, vector<Point> r) {
+Circle welzlMinCircle(vector<Point> points, long long index, vector<Point> r) {
   Circle c;
   //if (points.empty() || r.size() >= 3)
   if (index < 0 || r.size() >= 3) {
