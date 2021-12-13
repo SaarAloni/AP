@@ -15,6 +15,7 @@ class TimeSeries{
 public:
 
 	TimeSeries(const char* CSVfileName);
+	TimeSeries(std::vector<float> x, string xName, std::vector<float> y, string yname);
 	int getRowLength() const;
 	int getColumnLength() const;
 	std::pair<std::string, std::vector<float>> getColumnByIndex(int index) const;

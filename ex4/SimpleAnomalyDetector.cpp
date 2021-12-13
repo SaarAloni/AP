@@ -13,7 +13,7 @@ SimpleAnomalyDetector::~SimpleAnomalyDetector() {
 
 
 void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
-    float threshold = 0.9;
+    float threshold = 0.5;
     for (int i = 0; i < ts.getRowLength(); i++) {
         float p = 0;
         float core = 0;

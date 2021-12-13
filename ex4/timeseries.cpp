@@ -5,6 +5,10 @@
 #include "timeseries.h"
 
 // Create a vector of <string, int vector> pairs to store the result
+	TimeSeries::TimeSeries(std::vector<float> x, string xName, std::vector<float> y, string yName) {
+		this->result.push_back({xName, x});
+		this->result.push_back({yName, y});
+	}
 
 	TimeSeries::TimeSeries(const char* CSVfileName) {
     // Reads a CSV file into a vector of <string, vector<int>> pairs where
@@ -95,7 +99,7 @@
 		return v;
 	}
 
-	
+
 
 	// returns spacific column by row and column
   float TimeSeries::getColumnByIndex(int column, int row) const{

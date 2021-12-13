@@ -89,7 +89,7 @@ float pearson(float* x, float* y, int size) {
 * Output: line equation
 * Function Operation: performs a linear regression and returns the line equation
 ***/
-Line linear_reg(Point** points, int size) {
+Line linear_reg(Point** points  , int size) {
   try {
     1/size;
   } catch (const std::exception& e) {
