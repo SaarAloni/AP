@@ -25,22 +25,24 @@ float distanceBetween2Points(Point p1, Point p2) {
 }
 
 Point centerbetween2Points(Point p1, Point p2) {
-  Point p;
+  Point p = Point();
   p.x = (p1.x + p2.x) / 2;
   p.y = (p1.y + p2.y) / 2;
   return p;
 }
 
 Circle findCirclefrom1Point(Point p) {
-  Circle c;
+  Circle c = Circle();
   c.radius = 0;
   c.center = p;
+  return c;
 }
 
 Circle findCirclefrom2Points(Point p1, Point p2) {
-  Circle c;
+  Circle c = Circle();
   c.radius = distanceBetween2Points(p1, p2) / 2.0;
   c.center = centerbetween2Points(p1, p2);
+  return c;
 }
 
 
@@ -78,7 +80,7 @@ Circle findMinCircle(Point** points,size_t size) {
 Circle calcCircle(vector<Point> r) {
   if (r.empty()) {
     // should not happen
-    Circle c;
+    Circle c = Circle();
     return c;
   }
   if (r.size() >= 3) {
@@ -90,10 +92,11 @@ Circle calcCircle(vector<Point> r) {
   if (r.size() == 1) {
     return findCirclefrom1Point(r[0]);
   }
+  return Circle();
 }
 
-Circle welzlMinCircle(vector<Point> points, long long index, vector<Point> r) {
-  Circle c;
+Circle welzlMinCircle(vector<Point> points, size_t index, vector<Point> r) {
+  Circle c = Circle();
   //if (points.empty() || r.size() >= 3)
   if (index < 0 || r.size() >= 3) {
     c = calcCircle(r);
@@ -106,5 +109,5 @@ Circle welzlMinCircle(vector<Point> points, long long index, vector<Point> r) {
     return c;
   }
   r.push_back(points.at(index));
-  welzlMinCircle(points, index - 1, r);
+  return welzlMinCircle(points, index - 1, r);
 }
