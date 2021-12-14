@@ -1,15 +1,12 @@
 #include "HybridAnomalyDetector.h"
 
-
 HybridAnomalyDetector::HybridAnomalyDetector() {
 }
 
 HybridAnomalyDetector::~HybridAnomalyDetector() {
-	// TODO Auto-generated destructor stub
 }
 
 void HybridAnomalyDetector::HybridLearnNormal(const TimeSeries& ts) {
-  this->sap.learnNormal(ts);
   for (long int i = 0; i < this->cf.size(); i++) {
     if (cf.at(i).threshold/1.1 < 0.9) {
       cf.at(i).circle =
@@ -32,7 +29,7 @@ void HybridAnomalyDetector::HybridLearnNormal(const TimeSeries& ts) {
       std::vector<float> column2 = ts.getColumnByName(this->cf.at(i).feature2);
       TimeSeries newTS = TimeSeries(column1, this->cf.at(i).feature1,column2, this->cf.at(i).feature2);
       if(cf.at(i).circle.radius == -1) {
-        std::vector<AnomalyReport> vec = this->sap.detect(newTS);
+        std::vector<AnomalyReport> vec = SimpleAnomalyDetector::detect(newTS);
         for (AnomalyReport ar : vec) {
           report.push_back(ar);
         }
@@ -57,4 +54,9 @@ Point ** HybridAnomalyDetector::floatsToPoints(std::vector<float> x, std::vector
       result[i] = &p;
   }
   return result;
+}
+
+int main() {
+  /* code */
+  return 0;
 }

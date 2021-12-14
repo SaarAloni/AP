@@ -25,10 +25,8 @@ protected:
 public:
 	SimpleAnomalyDetector();
 	virtual ~SimpleAnomalyDetector();
-
 	virtual void learnNormal(const TimeSeries& ts);
 	virtual vector<AnomalyReport> detect(const TimeSeries& ts);
-
 	vector<correlatedFeatures> getNormalModel() {
 		return cf;
 	}
