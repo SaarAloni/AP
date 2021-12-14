@@ -55,8 +55,3 @@ Point ** HybridAnomalyDetector::floatsToPoints(std::vector<float> x, std::vector
   }
   return result;
 }
-
-int main() {
-  /* code */
-  return 0;
-}

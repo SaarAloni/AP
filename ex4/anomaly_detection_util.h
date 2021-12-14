@@ -1,3 +1,6 @@
+#ifndef ANOMALY_DETECTION_UTIL_H_
+#define ANOMALY_DETECTION_UTIL_H_
+
 #include <iostream>
 // returns the variance of X and Y
 float var(float* x, int size);
@@ -34,3 +37,5 @@ float dev(Point p,Point** points, int size);
 
 // returns the deviation between point p and the line
 float dev(Point p,Line l);
+
+#endif
