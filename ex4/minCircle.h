@@ -25,7 +25,7 @@ public:
 Circle findMinCircle(Point** points,size_t size);
 
 // you can add here additional methods
-Circle welzlMinCircle(vector<Point> points, vector<Point> r);
+Circle welzlMinCircle(vector<Point> points, size_t size, vector<Point> r);
 
 int isInsideCircle(Circle c, Point p);
 
