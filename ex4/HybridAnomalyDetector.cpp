@@ -1,6 +1,4 @@
-
 #include "HybridAnomalyDetector.h"
-
 
 
 HybridAnomalyDetector::HybridAnomalyDetector() {
@@ -20,7 +18,7 @@ void HybridAnomalyDetector::HybridLearnNormal(const TimeSeries& ts) {
         ts.getColumnByName(cf.at(i).feature1).size());
     }
     else {
-      cf.at(i).circle = NULL;
+      cf.at(i).circle = Circle();
     }
   }
 
@@ -32,7 +30,7 @@ void HybridAnomalyDetector::HybridLearnNormal(const TimeSeries& ts) {
       std::vector<float> column1 = ts.getColumnByName(this->cf.at(i).feature1);
       std::vector<float> column2 = ts.getColumnByName(this->cf.at(i).feature2);
       TimeSeries newTS = TimeSeries(column1, this->cf.at(i).feature1,column2, this->cf.at(i).feature2);
-      if(cf.at(i).circle == NULL) {
+      if(cf.at(i).circle.radius == -1) {
         std::vector<AnomalyReport> v = SimpleAnomalyDetector::detect(newTS);
         report.insert(report.end(), v.begin(), v.end());
       }
@@ -40,7 +38,7 @@ void HybridAnomalyDetector::HybridLearnNormal(const TimeSeries& ts) {
         std::vector<AnomalyReport> v = {};
         for (int j = 0; j < column1.size() ; j++) {
           if(minCircle::isInsideCircle(cf.at(i).circle, column1.at(j), column2.at(j)) == 0) {
-            report.push_back(AnomalyReport(string(cf.at(i).feature1 + "-" + cf.at(i).feature2), j+1));
+            report.push_back(AnomalyReport(string(this->cf.at(i).feature1 + "-" + this->cf.at(i).feature2), j+1));
           }
         }
       }

@@ -3,9 +3,8 @@
 #ifndef SIMPLEANOMALYDETECTOR_H_
 #define SIMPLEANOMALYDETECTOR_H_
 
-#include "anomaly_detection_util.h"
 #include "AnomalyDetector.h"
-#include "HybridAnomalyDetector.h"
+#include "minCircle.h"
 #include <vector>
 #include <algorithm>
 #include <string.h>
