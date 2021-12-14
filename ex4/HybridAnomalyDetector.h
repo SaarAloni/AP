@@ -7,6 +7,7 @@
 #include "minCircle.h"
 
 class HybridAnomalyDetector:public SimpleAnomalyDetector {
+	SimpleAnomalyDetector sap;
 public:
 	HybridAnomalyDetector();
 	virtual ~HybridAnomalyDetector();
