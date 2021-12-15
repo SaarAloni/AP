@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <vector>
-#include "HybridAnomalyDetector.cpp"
+#include "HybridAnomalyDetector.h"
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */

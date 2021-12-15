@@ -14,7 +14,7 @@ void HybridAnomalyDetector::learnNormal(const TimeSeries& ts) {
     std::cout << ts.getColumnByName(cf.at(i).feature1)[0]<< '\n';
     if (cf.at(i).threshold/1.1 < 0.9) {
       Point ** p = floatsToPoints(ts.getColumnByName(cf.at(i).feature1),ts.getColumnByName(cf.at(i).feature2));
-      std::cout << p[0] << '\n';
+      std::cout << "result"<< p[0]->y << '\n';
       cf.at(i).circle =
        findMinCircle(floatsToPoints(ts.getColumnByName(cf.at(i).feature1),
        ts.getColumnByName(cf.at(i).feature2)),
@@ -56,9 +56,11 @@ void HybridAnomalyDetector::learnNormal(const TimeSeries& ts) {
 
 Point ** HybridAnomalyDetector::floatsToPoints(std::vector<float> x, std::vector<float> y) {
   Point ** result;
+  std::cout << "/* message */" << '\n';
   for (int i = 0; i < x.size() ; i++) {
-      Point p(x.at(i), y.at(i));
-      result[i] = &p;
+      Point * p = new Point(x.at(i), y.at(i));
+      result[i] = p;
   }
+
   return result;
 }
