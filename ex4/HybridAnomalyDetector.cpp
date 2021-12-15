@@ -6,13 +6,20 @@ HybridAnomalyDetector::HybridAnomalyDetector() {
 HybridAnomalyDetector::~HybridAnomalyDetector() {
 }
 
-void HybridAnomalyDetector::HybridLearnNormal(const TimeSeries& ts) {
+void HybridAnomalyDetector::learnNormal(const TimeSeries& ts) {
+  SimpleAnomalyDetector::learnNormal(ts);
   for (long int i = 0; i < this->cf.size(); i++) {
+    std::cout << i << '\n';
+    std::cout << ts.getColumnByName(cf.at(i).feature2)[0] << '\n';
+    std::cout << ts.getColumnByName(cf.at(i).feature1)[0]<< '\n';
     if (cf.at(i).threshold/1.1 < 0.9) {
+      Point ** p = floatsToPoints(ts.getColumnByName(cf.at(i).feature1),ts.getColumnByName(cf.at(i).feature2));
+      std::cout << p[0] << '\n';
       cf.at(i).circle =
        findMinCircle(floatsToPoints(ts.getColumnByName(cf.at(i).feature1),
        ts.getColumnByName(cf.at(i).feature2)),
         ts.getColumnByName(cf.at(i).feature1).size());
+        std::cout << "here" << '\n';
     }
     else {
       cf.at(i).circle = Circle();

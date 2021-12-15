@@ -32,7 +32,6 @@
 
         // Create a stringstream from line
         std::stringstream ss(line);
-
         // Extract each column name
         while(std::getline(ss, colname, ',')){
 						//editing the number of columns
@@ -104,8 +103,6 @@
 	// returns spacific column by row and column
   float TimeSeries::getColumnByIndex(int column, int row) const{
 		   if(row > this->colLength || column > this->rowLength || column < 0 || row < 0) {
-				 std::cout << this->colLength << "\n";
-				 std::cout << this->rowLength << "\n";
 				 throw invalid_argument("column or row not ok please choose other values");
 			 }
 			 return this->result.at(column).second.at(row);
