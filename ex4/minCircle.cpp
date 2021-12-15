@@ -61,7 +61,7 @@ Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
    ((factorX1 * (factorY2 / factorY1)) - factorX2);
   resultY = (cons1 - (resultX * factorX1)) / (factorY1);
   resultR = std::sqrt(std::pow(p1.x - resultX, 2) + std::pow(p1.y - resultY, 2));
-  Circle c;
+  Circle c = Circle();
   c.center.x = resultX;
   c.center.y = resultY;
   c.radius = resultR;
