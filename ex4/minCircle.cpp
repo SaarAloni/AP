@@ -92,7 +92,6 @@ Circle findMinCircle(Point** points,size_t size) {
   for (int i = 0; i < size; i++) {
     p.push_back(*points[i]);
   }
-  std::cout << size << '\n';
   return (welzlMinCircle(p, size, r));
 }
 

@@ -9,17 +9,22 @@ HybridAnomalyDetector::~HybridAnomalyDetector() {
 void HybridAnomalyDetector::learnNormal(const TimeSeries& ts) {
   SimpleAnomalyDetector::learnNormal(ts);
   for (long int i = 0; i < this->cf.size(); i++) {
-    std::cout << i << '\n';
-    std::cout << ts.getColumnByName(cf.at(i).feature2)[0] << '\n';
-    std::cout << ts.getColumnByName(cf.at(i).feature1)[0]<< '\n';
-    if (cf.at(i).threshold/1.1 < 0.9) {
-      Point ** p = floatsToPoints(ts.getColumnByName(cf.at(i).feature1),ts.getColumnByName(cf.at(i).feature2));
-      std::cout << "result"<< p[0]->y << '\n';
+    std::cout << this->cf.at(i).feature1 << '\n';
+    std::cout << this->cf.at(i).feature2 << '\n';
+    std::cout << "======================================" << '\n';
+    if (cf.at(i).corrlation/1.1 < 0.9) {
+      std::cout << this->cf.at(i).corrlation << '\n';
+      std::vector<Point *> result;
+      int size = ts.getColumnByName(this->cf.at(i).feature1).size();
+      std::vector<float> v1 = ts.getColumnByName(this->cf.at(i).feature1);
+      std::vector<float> v2 = ts.getColumnByName(this->cf.at(i).feature2);
+      for (int j = 0; j <  size; j++) {
+          Point * p = new Point(v1.at(j), v2.at(j));
+          result.push_back(p);
+      }
       cf.at(i).circle =
-       findMinCircle(floatsToPoints(ts.getColumnByName(cf.at(i).feature1),
-       ts.getColumnByName(cf.at(i).feature2)),
-        ts.getColumnByName(cf.at(i).feature1).size());
-        std::cout << "here" << '\n';
+       findMinCircle(&result[0],
+        ts.getColumnByName(this->cf.at(i).feature1).size());
     }
     else {
       cf.at(i).circle = Circle();
@@ -55,12 +60,11 @@ void HybridAnomalyDetector::learnNormal(const TimeSeries& ts) {
    }
 
 Point ** HybridAnomalyDetector::floatsToPoints(std::vector<float> x, std::vector<float> y) {
-  Point ** result;
-  std::cout << "/* message */" << '\n';
+  std::vector<Point *> v = {};
+
   for (int i = 0; i < x.size() ; i++) {
       Point * p = new Point(x.at(i), y.at(i));
-      result[i] = p;
+      v.push_back(p);
   }
-
-  return result;
+  return &v[0];
 }

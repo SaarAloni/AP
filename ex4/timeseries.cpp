@@ -29,7 +29,6 @@
     {
         // Extract the first line in the file
         std::getline(myFile, line);
-				std::cout << line << '\n';
 
         // Create a stringstream from line
         std::stringstream ss(line);
