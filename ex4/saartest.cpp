@@ -9,9 +9,12 @@
 #include <math.h>
 
 int main() {
-  Point p1 = Point(-6.0,3.0);
-  Point p2 = Point(-3.0,2.0);
-  Point p3 = Point(0.0,3.0);
+  //Point p3 = Point(-6.0,3.0);
+  //Point p2 = Point(2.0,0.0);
+  //Point p1 = Point(3.0,0.0);
+  Point p3 = Point(5.0,4.0);
+  Point p2 = Point(9.0,4.0);
+  Point p1 = Point(5.0,2.0);
   Circle c = findCirclefrom3Points(p1, p2, p3);
   printf("%f\n", c.radius);
   printf("%f\n", c.center.x);
