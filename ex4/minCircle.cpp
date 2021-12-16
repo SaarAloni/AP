@@ -3,8 +3,7 @@
 
 // return 1 if point is inside the circle, 0 otherwise
 int isInsideCircle(Circle c, Point p) {
-  if (c.center.x + c.radius < p.x || c.center.x - c.radius > p.x ||
-     c.center.y + c.radius < p.y || c.center.y - c.radius > p.y) {
+  if (distanceBetween2Points(c.center, p) > c.radius) {
        return 0;
      }
      return 1;
@@ -12,11 +11,7 @@ int isInsideCircle(Circle c, Point p) {
 
 // return 1 if point is inside the circle, 0 otherwise
 int isInsideCircle(Circle c, float x, float y) {
-  if (c.center.x + c.radius < x || c.center.x - c.radius > x ||
-     c.center.y + c.radius < y || c.center.y - c.radius > y) {
-       return 0;
-     }
-     return 1;
+  return isInsideCircle(c, Point(x, y));
 }
 
 // returns the distance Between 2 Points
