@@ -11,9 +11,9 @@ void HybridAnomalyDetector::learnNormal(const TimeSeries& ts) {
   for (long int i = 0; i < this->cf.size(); i++) {
     std::cout << this->cf.at(i).feature1 << '\n';
     std::cout << this->cf.at(i).feature2 << '\n';
+    std::cout << this->cf.at(i).corrlation << '\n';
     std::cout << "======================================" << '\n';
     if (cf.at(i).corrlation/1.1 < 0.9) {
-      std::cout << this->cf.at(i).corrlation << '\n';
       std::vector<Point *> result;
       int size = ts.getColumnByName(this->cf.at(i).feature1).size();
       std::vector<float> v1 = ts.getColumnByName(this->cf.at(i).feature1);
