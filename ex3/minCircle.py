@@ -101,13 +101,6 @@ def minimum_enclosing_circle(P):
 
 # Driver code
 
-mec = minimum_enclosing_circle([ [ 0, 0 ],
-								[ 0, 1 ],
-								[ 1, 0 ] ])
-
-print("Center = { ",mec[0][1],",",mec[0][1],
-				"} Radius = ",round(mec[1],6))
-
 mec2 = minimum_enclosing_circle([ [ 5, -2 ],
 								[ -3, -2 ],
 								[ -2, 5 ],
