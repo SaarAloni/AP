@@ -47,20 +47,20 @@ Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
   float factorX1, factorY1, factorX2, factorY2;
   float cons1, cons2;
   factorX1 = (p1.x * 2.0) - (p2.x * 2.0);
-  factorY1 = (p1.y * 2.0) - (p2.y * 2.0);
-  factorX2 = (p3.x * 2.0) - (p2.x * 2.0);
-  factorY2 = (p3.y * 2.0) - (p2.y * 2.0);
-  if (factorY1 == 0.0) {
+  if (factorY1 != 0.0) {
+    factorY1 = (p1.y * 2.0) - (p2.y * 2.0);
+    factorX2 = (p3.x * 2.0) - (p2.x * 2.0);
+    factorY2 = (p3.y * 2.0) - (p2.y * 2.0);
+    cons1 = std::pow(p1.x, 2) - std::pow(p2.x, 2) + std::pow(p1.y,2) - std::pow(p2.y, 2);
+    cons2 = std::pow(p3.x, 2) - std::pow(p2.x, 2) + std::pow(p3.y,2) - std::pow(p2.y, 2);
+  }
+  else {
     factorX1 = (p3.x * 2.0) - (p2.x * 2.0);
     factorY1 = (p3.y * 2.0) - (p2.y * 2.0);
     factorX2 = (p1.x * 2.0) - (p2.x * 2.0);
     factorY2 = (p1.y * 2.0) - (p2.y * 2.0);
     cons1 = std::pow(p3.x, 2) - std::pow(p2.x, 2) + std::pow(p3.y,2) - std::pow(p2.y, 2);
     cons2 = std::pow(p1.x, 2) - std::pow(p2.x, 2) + std::pow(p1.y,2) - std::pow(p2.y, 2);
-  }
-  else {
-  cons1 = std::pow(p1.x, 2) - std::pow(p2.x, 2) + std::pow(p1.y,2) - std::pow(p2.y, 2);
-  cons2 = std::pow(p3.x, 2) - std::pow(p2.x, 2) + std::pow(p3.y,2) - std::pow(p2.y, 2);
   }
 /*
   if (factorY1 == 0.0) {
@@ -92,7 +92,6 @@ Circle findMinCircle(Point** points,size_t size) {
 
 Circle calcCircle(vector<Point> r) {
   if (r.empty()) {
-    // should not happen
     Circle c = Circle();
     return c;
   }
