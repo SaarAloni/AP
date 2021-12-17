@@ -21,6 +21,7 @@ void HybridAnomalyDetector::learnNormal(const TimeSeries& ts) {
       this->cf.at(i).circle =
        findMinCircle(&result[0],
         ts.getAttributeData(this->cf.at(i).feature1).size());
+      this->cf.at(i).circle.radius = this->cf.at(i).circle.radius*1.1;
     }
     else {
       cf.at(i).circle = Circle();

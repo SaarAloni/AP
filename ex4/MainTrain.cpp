@@ -143,7 +143,8 @@ int main(){
 		if(ar.description==anomalies[2].description && ar.timeStep==anomalies[2].timeStep)
 			detected[2]=true;
 	});
-
+	for(AnomalyReport a: r) {
+	}
 	int falseAlarms=r.size();
 	for(int i=0;i<3;i++)
 		if(!detected[i])
