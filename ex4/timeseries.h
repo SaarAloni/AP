@@ -1,27 +1,82 @@
-#include <vector>
-#include <string>
+/*
+ * timeseries.h
+ *
+ *  Created on: 26 ����� 2020
+ *      Author: Eli
+ */
 
 #ifndef TIMESERIES_H_
 #define TIMESERIES_H_
+#include <iostream>
+#include <string.h>
+#include <fstream>
+#include<map>
+#include <vector>
+#include <string.h>
+#include <bits/stdc++.h>
+#include <algorithm>
 
 using namespace std;
 
 class TimeSeries{
 
-	std::vector<std::pair<std::string, std::vector<float>>> result = {};
-	int colLength = 0;
-	int rowLength = 0;
 
+	map<string,vector<float>> ts;
+	vector<string> atts;
+	size_t dataRowSize;
 public:
 
-	TimeSeries(const char* CSVfileName);
-	TimeSeries(std::vector<float> x, string xName, std::vector<float> y, string yname);
-	int getRowLength() const;
-	int getColumnLength() const;
-	std::pair<std::string, std::vector<float>> getColumnByIndex(int index) const;
-	std::vector<float> getColumnByName(std::string name) const;
-	float getColumnByIndex(int column, int row) const;
+	// Create a vector of <string, int vector> pairs to store the result
+	TimeSeries(std::vector<float> x, string xName, std::vector<float> y, string yName) {
+			this->ts[xName] = x;
+			this->ts[yName] = y;
+		}
 
+
+	TimeSeries(const char* CSVfileName){
+		ifstream in(CSVfileName);
+		string head;
+		in>>head;
+		string att;
+		stringstream hss(head);
+		while(getline(hss,att,',')){
+			vector<float> v;
+		     ts[att]=v;
+		     atts.push_back(att);
+		}
+
+		while(!in.eof()){
+			string line;
+			in>>line;
+			string val;
+			stringstream lss(line);
+			int i=0;
+			while(getline(lss,val,',')){
+				ts[atts[i]].push_back(stof(val));
+			     i++;
+			}
+		}
+		in.close();
+
+		dataRowSize = ts[atts[0]].size();
+
+	}
+
+	const vector<float>& getAttributeData(string name)const{
+		return ts.at(name);
+	}
+
+	const vector<string>& gettAttributes()const{
+		return atts;
+	}
+
+	size_t getRowSize()const{
+		return dataRowSize;
+	}
+
+	~TimeSeries(){
+
+	}
 };
 
 

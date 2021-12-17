@@ -4,6 +4,7 @@
 #define HYBRIDANOMALYDETECTOR_H_
 
 #include "SimpleAnomalyDetector.h"
+#include "minCircle.h"
 
 class HybridAnomalyDetector:public SimpleAnomalyDetector {
 	SimpleAnomalyDetector sap;

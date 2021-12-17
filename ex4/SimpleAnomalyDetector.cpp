@@ -1,66 +1,113 @@
+/*
+ * SimpleAnomalyDetector.cpp
+ *
+ *  Created on: 8 ����� 2020
+ *      Author: Eli
+ */
 
 #include "SimpleAnomalyDetector.h"
-#include "timeseries.h"
-#include <cmath>
 
-SimpleAnomalyDetector::SimpleAnomalyDetector(): cf()  {
-	// TODO Auto-generated constructor stub
+SimpleAnomalyDetector::SimpleAnomalyDetector() {
+	threshold = 0.5;
+
 }
 
 SimpleAnomalyDetector::~SimpleAnomalyDetector() {
 	// TODO Auto-generated destructor stub
 }
 
+Point** SimpleAnomalyDetector::toPoints(vector<float> x, vector<float> y){
+	Point** ps=new Point*[x.size()];
+	for(size_t i=0;i<x.size();i++){
+		ps[i]=new Point(x[i],y[i]);
+	}
+	return ps;
+}
+
+float SimpleAnomalyDetector::findThreshold(Point** ps,size_t len,Line rl){
+	float max=0;
+	for(size_t i=0;i<len;i++){
+		float d=abs(ps[i]->y - rl.f(ps[i]->x));
+		if(d>max)
+			max=d;
+	}
+	return max;
+}
 
 void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
-    float threshold = 0.5;
-    for (int i = 0; i < ts.getRowLength(); i++) {
-        float p = 0;
-        float core = 0;
-        float max = 0;
-        int index = -1;
-        for (int j = i + 1; j <  ts.getRowLength(); j++) {
-            p = abs(pearson(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(j).second[0]), ts.getRowLength()));
-            if (p > core && p > threshold) {
-                core = p;
-                index = j;
-              }
-            }
-          if (index != -1) {
-              correlatedFeatures c;
-              c.corrlation = core;
-              c.feature1 = ts.getColumnByIndex(i).first;
-              c.feature2 = ts.getColumnByIndex(index).first;
-              c.lin_reg = linear_reg(&(ts.getColumnByIndex(i).second[0]), &(ts.getColumnByIndex(index).second[0]), ts.getColumnLength());
+	vector<string> atts=ts.gettAttributes();
+	size_t len=ts.getRowSize();
 
-              for (int j = 0; j < ts.getColumnLength(); j++) {
-                  Point point = Point(ts.getColumnByIndex(i).second[j], ts.getColumnByIndex(index).second[j]);
-                  float devation = dev(point, c.lin_reg);
-                  if (devation > max) {
-                      max = devation;
-                  }
-              }
-              c.threshold = max * 1.1;
-              this->cf.push_back(c);
-          }
-      }
+	float vals[atts.size()][len];
+	for(size_t i=0;i<atts.size();i++){
+		for(size_t j=0;j<ts.getRowSize();j++){
+			vals[i][j]=ts.getAttributeData(atts[i])[j];
+		}
+	}
 
-    // TODO Auto-generated destructor stub
+	for(size_t i=0;i<atts.size();i++){
+		string f1=atts[i];
+		float max=0;
+		size_t jmax=0;
+		for(size_t j=i+1;j<atts.size();j++){
+			float p=abs(pearson(vals[i],vals[j],len));
+			if(p>max){
+				max=p;
+				jmax=j;
+			}
+		}
+		string f2=atts[jmax];
+		Point** ps=toPoints(ts.getAttributeData(f1),ts.getAttributeData(f2));
+
+		learnHelper(ts,max,f1,f2,ps);
+
+		// delete points
+		for(size_t k=0;k<len;k++)
+			delete ps[k];
+		delete[] ps;
+	}
+}
+
+void SimpleAnomalyDetector::learnHelper(const TimeSeries& ts,float p/*pearson*/,string f1, string f2,Point** ps){
+	if(p>threshold){
+		size_t len=ts.getRowSize();
+		correlatedFeatures c;
+		c.feature1=f1;
+		c.feature2=f2;
+		c.corrlation=p;
+		c.lin_reg=linear_reg(ps,len);
+		c.threshold=findThreshold(ps,len,c.lin_reg)*1.1; // 10% increase
+		cf.push_back(c);
+	}
 }
 
 vector<AnomalyReport> SimpleAnomalyDetector::detect(const TimeSeries& ts){
-  std::vector<AnomalyReport> report = {};
-    for (int i = 0; i < this->cf.size(); i++) {
-      std::vector<float> column1 = ts.getColumnByName(this->cf.at(i).feature1);
-      std::vector<float> column2 = ts.getColumnByName(this->cf.at(i).feature2);
-      for (int j = 0; j < column1.size(); j++) {
-        Point p = Point(column1.at(j), column2.at(j));
-        float deviation = dev(p, this->cf.at(i).lin_reg);
-        if (deviation>= this->cf.at(i).threshold) {
-          report.push_back(AnomalyReport(string(cf.at(i).feature1 + "-" + cf.at(i).feature2), j+1));
-        }
-    }
-  }
+	vector<AnomalyReport> v;
+	for_each(cf.begin(),cf.end(),[&v,&ts,this](correlatedFeatures c){
+		vector<float> x=ts.getAttributeData(c.feature1);
+		vector<float> y=ts.getAttributeData(c.feature2);
+		for(size_t i=0;i<x.size();i++){
+			if(isAnomalous(x[i],y[i],c)){
+				string d=c.feature1 + "-" + c.feature2;
+				v.push_back(AnomalyReport(d,(i+1)));
+			}
+		}
+	});
+	return v;
+}
 
-  return report;
+vector<AnomalyReport> SimpleAnomalyDetector::detect(correlatedFeatures c,vector<float> x, vector<float> y){
+	vector<AnomalyReport> v;
+	for(size_t i=0;i<x.size();i++){
+		if(isAnomalous(x[i],y[i],c)){
+			string d=c.feature1 + "-" + c.feature2;
+			v.push_back(AnomalyReport(d,(i+1)));
+		}
+	}
+	return v;
+}
+
+
+bool SimpleAnomalyDetector::isAnomalous(float x, float y,correlatedFeatures c){
+	return (abs(y - c.lin_reg.f(x))>c.threshold);
 }
