@@ -3,8 +3,7 @@
 
 // return 1 if point is inside the circle, 0 otherwise
 int isInsideCircle(Circle c, Point p) {
-  if (c.center.x + c.radius < p.x || c.center.x - c.radius > p.x ||
-     c.center.y + c.radius < p.y || c.center.y - c.radius > p.y) {
+  if (distanceBetween2Points(c.center, p) > c.radius) {
        return 0;
      }
      return 1;
@@ -12,11 +11,7 @@ int isInsideCircle(Circle c, Point p) {
 
 // return 1 if point is inside the circle, 0 otherwise
 int isInsideCircle(Circle c, float x, float y) {
-  if (c.center.x + c.radius < x || c.center.x - c.radius > x ||
-     c.center.y + c.radius < y || c.center.y - c.radius > y) {
-       return 0;
-     }
-     return 1;
+  return isInsideCircle(c, Point(x, y));
 }
 
 // returns the distance Between 2 Points
@@ -52,20 +47,20 @@ Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
   float factorX1, factorY1, factorX2, factorY2;
   float cons1, cons2;
   factorX1 = (p1.x * 2.0) - (p2.x * 2.0);
-  factorY1 = (p1.y * 2.0) - (p2.y * 2.0);
-  factorX2 = (p3.x * 2.0) - (p2.x * 2.0);
-  factorY2 = (p3.y * 2.0) - (p2.y * 2.0);
-  if (factorY1 == 0.0) {
+  if (factorY1 != 0.0) {
+    factorY1 = (p1.y * 2.0) - (p2.y * 2.0);
+    factorX2 = (p3.x * 2.0) - (p2.x * 2.0);
+    factorY2 = (p3.y * 2.0) - (p2.y * 2.0);
+    cons1 = std::pow(p1.x, 2) - std::pow(p2.x, 2) + std::pow(p1.y,2) - std::pow(p2.y, 2);
+    cons2 = std::pow(p3.x, 2) - std::pow(p2.x, 2) + std::pow(p3.y,2) - std::pow(p2.y, 2);
+  }
+  else {
     factorX1 = (p3.x * 2.0) - (p2.x * 2.0);
     factorY1 = (p3.y * 2.0) - (p2.y * 2.0);
     factorX2 = (p1.x * 2.0) - (p2.x * 2.0);
     factorY2 = (p1.y * 2.0) - (p2.y * 2.0);
     cons1 = std::pow(p3.x, 2) - std::pow(p2.x, 2) + std::pow(p3.y,2) - std::pow(p2.y, 2);
     cons2 = std::pow(p1.x, 2) - std::pow(p2.x, 2) + std::pow(p1.y,2) - std::pow(p2.y, 2);
-  }
-  else {
-  cons1 = std::pow(p1.x, 2) - std::pow(p2.x, 2) + std::pow(p1.y,2) - std::pow(p2.y, 2);
-  cons2 = std::pow(p3.x, 2) - std::pow(p2.x, 2) + std::pow(p3.y,2) - std::pow(p2.y, 2);
   }
 /*
   if (factorY1 == 0.0) {
@@ -97,7 +92,6 @@ Circle findMinCircle(Point** points,size_t size) {
 
 Circle calcCircle(vector<Point> r) {
   if (r.empty()) {
-    // should not happen
     Circle c = Circle();
     return c;
   }
