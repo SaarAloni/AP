@@ -82,12 +82,8 @@ Circle findCirclefrom3Points(Point p1, Point p2, Point p3) {
 }
 
 Circle findMinCircle(Point** points,size_t size) {
-  std::vector<Point> p;
   std::vector<Point> r;
-  for (int i = 0; i < size; i++) {
-    p.push_back(*points[i]);
-  }
-  return (welzlMinCircle(p, size, r));
+  return (welzlMinCircle(points, size, r));
 }
 
 Circle calcCircle(vector<Point> r) {
@@ -107,7 +103,7 @@ Circle calcCircle(vector<Point> r) {
   return Circle();
 }
 
-Circle welzlMinCircle(vector<Point> points, size_t index, vector<Point> r) {
+Circle welzlMinCircle(Point** points, size_t index, vector<Point> r) {
   Circle c = Circle();
   //if (points.empty() || r.size() >= 3)
   if (index <= 0 || r.size() >= 3) {
@@ -117,9 +113,9 @@ Circle welzlMinCircle(vector<Point> points, size_t index, vector<Point> r) {
     //return calcCircle(r);
   }
   c = welzlMinCircle(points, index - 1, r);
-  if (isInsideCircle(c, points[index - 1])) {
+  if (isInsideCircle(c, *points[index - 1])) {
     return c;
   }
-  r.push_back(points.at(index - 1));
+  r.push_back(*points[index - 1]);
   return welzlMinCircle(points, index - 1, r);
 }
