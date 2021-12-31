@@ -21,7 +21,7 @@ void uploadCommand::execute() {
 	}
 	out.close();
     this->dio->write("Upload complete.\n");
-    this->dio->write("Please upload your local train CSV file.\n");
+    this->dio->write("Please upload your local test CSV file.\n");
     ofstream out2("anomalyTest.csv");
     s = this->dio->read();
 	while (s != "done"){

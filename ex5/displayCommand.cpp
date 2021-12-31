@@ -13,7 +13,8 @@ displayCommand::~displayCommand() {
 
 
 void displayCommand::execute() {
-    vector<AnomalyReport>* pAnomaly = this->ar[0];
+
+    vector<AnomalyReport>* pAnomaly = this->ar;
     for(int i = 0; i < pAnomaly->size(); i++) {
         this->dio->write(pAnomaly->at(i).timeStep);
         this->dio->write("\t" + pAnomaly->at(i).description + "\n");
