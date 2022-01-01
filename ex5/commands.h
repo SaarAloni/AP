@@ -50,8 +50,27 @@ class uploadCommand:public Command {
 public:
         uploadCommand(DefaultIO* dio, std::string des): // change the des to const
         Command(dio, des){}
-        virtual ~uploadCommand();
-	    virtual void execute();
+        ~uploadCommand(){}
+				void execute() {
+				    this->dio->write("Please upload your local train CSV file.\n");
+				    ofstream out("anomalyTrain.csv");
+					std::string s = this->dio->read();
+					while (s != "done"){
+						out<<s<<endl;
+				        s = this->dio->read();
+					}
+					out.close();
+				    this->dio->write("Upload complete.\n");
+				    this->dio->write("Please upload your local test CSV file.\n");
+				    ofstream out2("anomalyTest.csv");
+				    s = this->dio->read();
+					while (s != "done"){
+						out2<<s<<endl;
+				        s = this->dio->read();
+					}
+					out2.close();
+				    this->dio->write("Upload complete.\n");
+				}
 };
 
 class displayCommand:public Command {
@@ -61,19 +80,34 @@ public:
         vector<AnomalyReport>* ar;
         displayCommand(DefaultIO* dio, SimpleAnomalyDetector* ad, std::string des, vector<AnomalyReport>* ar):ad(ad), ar(ar), // change the des to const
         Command(dio, des){}
-        virtual ~displayCommand();
-	    virtual void execute();
+        ~displayCommand(){}
+				void execute() {
+				    vector<AnomalyReport>* pAnomaly = this->ar;
+				    for(int i = 0; i < pAnomaly->size(); i++) {
+				        this->dio->write(pAnomaly->at(i).timeStep);
+				        this->dio->write("\t" + pAnomaly->at(i).description + "\n");
+				    }
+				    this->dio->write("Done.\n");
+				}
 };
 
 class detectCommand:public Command {
 
 public:
+				int *n;
         SimpleAnomalyDetector* ad;
         vector<AnomalyReport>* ar;
-        detectCommand(DefaultIO* dio, SimpleAnomalyDetector* ad, std::string des, vector<AnomalyReport>* ar):ad(ad), ar(ar), // change the des to const
+        detectCommand(DefaultIO* dio, SimpleAnomalyDetector* ad, std::string des, vector<AnomalyReport>* ar, int *n):ad(ad), ar(ar),n(n), // change the des to const
         Command(dio, des){}
-        virtual ~detectCommand();
-	    virtual void execute();
+        ~detectCommand(){}
+				void execute() {
+				    TimeSeries ts("anomalyTrain.csv");
+					  this->ad->learnNormal(ts);
+				    TimeSeries ts2("anomalyTest.csv");
+						*(this->n) = ts2.getRowSize();
+				    *(this->ar) = this->ad->detect(ts2);
+				    this->dio->write("anomaly detection complete.\n");
+				}
 };
 
 class algoSetCommand:public Command {
@@ -89,7 +123,7 @@ public:
 				    float f = this->ad->tempThreshold;
 				    this->dio->write("The current correlation threshold is ");
 				    this->dio->write(this->ad->tempThreshold);
-				    this->dio->write("\n");
+				    this->dio->write("\nType a new threshold\n");
 				    this->dio->read(&f);
 					while (f < 0.0 || f > 1.0){
 						this->dio->write("please choose a value between 0 and 1.\n");
@@ -107,14 +141,15 @@ class analayzeCommand:public Command {
 public:
         SimpleAnomalyDetector* ad;
            vector<AnomalyReport>* ar;
-        analayzeCommand(DefaultIO* dio, SimpleAnomalyDetector* ad, std::string des, vector<AnomalyReport>* ar):ad(ad), ar(ar), // change the des to const
+				int * n;
+        analayzeCommand(DefaultIO* dio, SimpleAnomalyDetector* ad, std::string des, vector<AnomalyReport>* ar, int *n):ad(ad), ar(ar),n(n), // change the des to const
         Command(dio, des){}
         ~analayzeCommand() {
 				}
         void execute() {
             std::vector<ReportSpan> rsServer;
             std::vector<ReportSpan> rsClient;
-            float N = 191;
+            float N = (float)*(this->n);
             float FP = 0;
             float TP = 0;
             float P = 0;
@@ -125,24 +160,19 @@ public:
                 int j = 1;
                 while (this->ar->at(i).description == this->ar->at(i+j).description && (this->ar->at(i).timeStep + 1) == this->ar->at(i+j).timeStep) {
                     j++;
-										if (j < this->ar->size()) {
+										if (i + j < this->ar->size()) {
 											continue;
 										}
 										break;
                 }
-								std::cout << "why?" << '\n';
-								std::cout << j << '\n';
+
                 rsServer.push_back(ReportSpan(this->ar->at(i).timeStep,this->ar->at(i + j-1).timeStep));
-								std::cout << "why2?" << '\n';
                 i += j;
             }
 						// for the last anomaly we cant check it with the next anomaly so we make an exeption
-						std::cout << "why3" << '\n';
 						if (this->ar->at(this->ar->size() - 2).description != this->ar->at(this->ar->size() - 1).description) {
 							rsServer.push_back(ReportSpan(this->ar->at(this->ar->size()-1).timeStep, this->ar->at(this->ar->size()-1).timeStep));
 						}
-						std::cout << "why4" << '\n';
-
             this->dio->write("Please upload your local train CSV file.\n");
             std::string s = this->dio->read();
             while (s != "done"){
@@ -153,6 +183,7 @@ public:
                     results.push_back(input);
                 }
                 rsClient.push_back(ReportSpan(std::stoi(results.at(0)), (std::stoi(results.at(1)))));
+								N = N - ((std::stoi(results.at(1))) - (std::stoi(results.at(0))) + 1 );
                 P++;
                   s = this->dio->read();
             }
@@ -160,8 +191,6 @@ public:
             for (int i = 0; i < rsServer.size(); i++) {
                 int flag = 0;
                 for (int j = 0; j < rsClient.size(); j++) {
-									std::cout << rsServer.at(i).begin << '\n';
-									std::cout << rsServer.at(i).end << '\n';
                     if ((rsServer.at(i).begin > rsClient.at(j).begin && rsServer.at(i).begin < rsClient.at(j).end) ||
                      (rsServer.at(i).end > rsClient.at(j).begin && rsServer.at(i).end < rsClient.at(j).end) ||
                      (rsServer.at(i).begin < rsClient.at(j).begin && rsServer.at(i).end > rsClient.at(j).end)) {
