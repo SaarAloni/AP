@@ -120,19 +120,19 @@ public:
 
 				}
 				void execute() {
-				    float f = this->ad->tempThreshold;
+				    float f = this->ad->getthreshold();
 				    this->dio->write("The current correlation threshold is ");
-				    this->dio->write(this->ad->tempThreshold);
+				    this->dio->write(this->ad->getthreshold());
 				    this->dio->write("\nType a new threshold\n");
 				    this->dio->read(&f);
 					while (f < 0.0 || f > 1.0){
 						this->dio->write("please choose a value between 0 and 1.\n");
 				        this->dio->write("The current correlation threshold is ");
-				        this->dio->write(this->ad->tempThreshold);
+				        this->dio->write(this->ad->getthreshold());
 				        this->dio->write("\n");
 				        this->dio->read(&f);
 					}
-					this->ad->tempThreshold = f;
+					this->ad->setCorrelationThreshold(f);
 				}
 };
 
@@ -158,7 +158,7 @@ public:
 
             for (int i = 0; i < this->ar->size() - 1;) {
                 int j = 1;
-                while (this->ar->at(i).description == this->ar->at(i+j).description && (this->ar->at(i).timeStep + 1) == this->ar->at(i+j).timeStep) {
+                while (this->ar->at(i).description == this->ar->at(i+j).description && (this->ar->at(i).timeStep + j) == this->ar->at(i+j).timeStep) {
                     j++;
 										if (i + j < this->ar->size()) {
 											continue;
@@ -173,6 +173,7 @@ public:
 						if (this->ar->at(this->ar->size() - 2).description != this->ar->at(this->ar->size() - 1).description) {
 							rsServer.push_back(ReportSpan(this->ar->at(this->ar->size()-1).timeStep, this->ar->at(this->ar->size()-1).timeStep));
 						}
+
             this->dio->write("Please upload your local train CSV file.\n");
             std::string s = this->dio->read();
             while (s != "done"){
@@ -191,9 +192,9 @@ public:
             for (int i = 0; i < rsServer.size(); i++) {
                 int flag = 0;
                 for (int j = 0; j < rsClient.size(); j++) {
-                    if ((rsServer.at(i).begin > rsClient.at(j).begin && rsServer.at(i).begin < rsClient.at(j).end) ||
-                     (rsServer.at(i).end > rsClient.at(j).begin && rsServer.at(i).end < rsClient.at(j).end) ||
-                     (rsServer.at(i).begin < rsClient.at(j).begin && rsServer.at(i).end > rsClient.at(j).end)) {
+                    if ((rsServer.at(i).begin >= rsClient.at(j).begin && rsServer.at(i).begin <= rsClient.at(j).end) ||
+                     (rsServer.at(i).end >= rsClient.at(j).begin && rsServer.at(i).end <= rsClient.at(j).end) ||
+                     (rsServer.at(i).begin <= rsClient.at(j).begin && rsServer.at(i).end >= rsClient.at(j).end)) {
                          TP+=1;
                          flag = 1;
                          break;
@@ -204,13 +205,29 @@ public:
                     FP+=1;
                 }
             }
+						TP = TP / P;
+						FP = FP / N;
+						TP = round(TP, 3);
+						FP = round(FP, 3);
             this->dio->write("True Positive Rate: ");
-            this->dio->write(TP / P);
+            this->dio->write(TP);
             this->dio->write("\nFalse Positive Rate: ");
-            this->dio->write(FP / N);
+            this->dio->write(FP);
             this->dio->write("\n");
 
         }
+			float round(float num, int i) {
+				int save = 0;
+				for (int j = 0; j< i; j++){
+					num *= 10;
+				}
+				save = (int)num;
+				num = (float)save;
+				for (int j = 0; j< i; j++){
+					num /= 10;
+				}
+				return num;
+			}
 };
 
 class exitCommand:public Command {

@@ -10,7 +10,6 @@
 
 #include "anomaly_detection_util.h"
 #include "AnomalyDetector.h"
-#include "minCircle.h"
 #include <vector>
 #include <algorithm>
 #include <string.h>
@@ -21,29 +20,28 @@ struct correlatedFeatures{
 	float corrlation;
 	Line lin_reg;
 	float threshold;
-	Point* center;
-	Circle circle;
+	float cx,cy;
 };
 
 
 class SimpleAnomalyDetector:public TimeSeriesAnomalyDetector{
 protected:
 	vector<correlatedFeatures> cf;
-
-public:
-	float tempThreshold = 0.9;
 	float threshold;
+public:
 	SimpleAnomalyDetector();
 	virtual ~SimpleAnomalyDetector();
 
 	virtual void learnNormal(const TimeSeries& ts);
 	virtual vector<AnomalyReport> detect(const TimeSeries& ts);
-		vector<AnomalyReport> detect(correlatedFeatures c, vector<float> x, vector<float> y);
 	vector<correlatedFeatures> getNormalModel(){
 		return cf;
 	}
 	void setCorrelationThreshold(float threshold){
 		this->threshold=threshold;
+	}
+	float getthreshold(){
+		return this->threshold;
 	}
 
 	// helper methods

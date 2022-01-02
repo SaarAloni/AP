@@ -1,14 +1,14 @@
 /*
  * SimpleAnomalyDetector.cpp
  *
- *  Created on: 8 пїЅпїЅпїЅпїЅпїЅ 2020
+ *  Created on: 8 баечЧ 2020
  *      Author: Eli
  */
 
 #include "SimpleAnomalyDetector.h"
 
 SimpleAnomalyDetector::SimpleAnomalyDetector() {
-	threshold = 0.5;
+	threshold = 0.9;
 
 }
 
@@ -37,11 +37,11 @@ float SimpleAnomalyDetector::findThreshold(Point** ps,size_t len,Line rl){
 void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts){
 	vector<string> atts=ts.gettAttributes();
 	size_t len=ts.getRowSize();
-
 	float vals[atts.size()][len];
 	for(size_t i=0;i<atts.size();i++){
-		for(size_t j=0;j<ts.getRowSize();j++){
-			vals[i][j]=ts.getAttributeData(atts[i])[j];
+		vector<float> x=ts.getAttributeData(atts[i]);
+		for(size_t j=0;j<len;j++){
+			vals[i][j]=x[j];
 		}
 	}
 
@@ -93,17 +93,6 @@ vector<AnomalyReport> SimpleAnomalyDetector::detect(const TimeSeries& ts){
 			}
 		}
 	});
-	return v;
-}
-
-vector<AnomalyReport> SimpleAnomalyDetector::detect(correlatedFeatures c,vector<float> x, vector<float> y){
-	vector<AnomalyReport> v;
-	for(size_t i=0;i<x.size();i++){
-		if(isAnomalous(x[i],y[i],c)){
-			string d=c.feature1 + "-" + c.feature2;
-			v.push_back(AnomalyReport(d,(i+1)));
-		}
-	}
 	return v;
 }
 

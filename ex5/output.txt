@@ -60,7 +60,7 @@ Please choose an option:
 Please upload your local train CSV file.
 Upload complete.
 True Positive Rate: 0
-False Positive Rate: 0.031746
+False Positive Rate: 0.015
 Welcome to the Anomaly Detection Server.
 Please choose an option:
 1.upload a time series csv file
@@ -72,19 +72,7 @@ Please choose an option:
 Please upload your local train CSV file.
 Upload complete.
 True Positive Rate: 0.5
-False Positive Rate: 0.0271739
-Welcome to the Anomaly Detection Server.
-Please choose an option:
-1.upload a time series csv file
-2.algorithm settings
-3.detect anomalies
-4.display results
-5.upload anomalies and analyze results
-6.exit
-Please upload your local train CSV file.
-Upload complete.
-True Positive Rate: 0
-False Positive Rate: 0.0306122
+False Positive Rate: 0.01
 Welcome to the Anomaly Detection Server.
 Please choose an option:
 1.upload a time series csv file
@@ -96,7 +84,7 @@ Please choose an option:
 Please upload your local train CSV file.
 Upload complete.
 True Positive Rate: 1
-False Positive Rate: 0.0209424
+False Positive Rate: 0.01
 Welcome to the Anomaly Detection Server.
 Please choose an option:
 1.upload a time series csv file
@@ -107,8 +95,20 @@ Please choose an option:
 6.exit
 Please upload your local train CSV file.
 Upload complete.
-True Positive Rate: 0.666667
-False Positive Rate: 0.0209424
+True Positive Rate: 1
+False Positive Rate: 0.005
+Welcome to the Anomaly Detection Server.
+Please choose an option:
+1.upload a time series csv file
+2.algorithm settings
+3.detect anomalies
+4.display results
+5.upload anomalies and analyze results
+6.exit
+Please upload your local train CSV file.
+Upload complete.
+True Positive Rate: 1
+False Positive Rate: 0
 Welcome to the Anomaly Detection Server.
 Please choose an option:
 1.upload a time series csv file
