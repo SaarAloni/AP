@@ -10,6 +10,14 @@
 #include <thread>
 #include "CLI.h"
 #include "commands.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <thread>
 
 using namespace std;
 
@@ -41,7 +49,6 @@ class Server {
   int port;
 
 	// you may add data members
-void connect(int soc)throw(const char*);
 public:
 	Server(int port) throw (const char*);
 	virtual ~Server();

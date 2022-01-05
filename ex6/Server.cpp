@@ -1,25 +1,22 @@
 
 #include "Server.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 
 Server::Server(int port)throw (const char*) {
 	this->port = port;
 }
 
-void Server::connect(int soc)throw(const char*){
+void con(int soc){
+
 	int newsoc;
 	socklen_t clilen, cli_addr;
 	while(true) {
+		std::cout << soc << '\n';
 		clilen = sizeof(cli_addr);
+					std::cout << "/* message */2" << '\n';
 		newsoc = accept(soc, (struct sockaddr *) &cli_addr, &clilen);
+					std::cout << "/* message */2" << '\n';
 		if (newsoc < 0) {
-			perror("ERROR on accept");
+			perror("ERROR on accept\n");
 			exit(1);
 		}
 		SocketIO df(newsoc);
@@ -31,7 +28,7 @@ void Server::connect(int soc)throw(const char*){
 
 void Server::start(ClientHandler& ch)throw(const char*){
 	struct sockaddr_in serv_addr;
-	int soc, newsoc;
+	int soc;
 	socklen_t clilen;
 	soc =  socket(AF_INET, SOCK_STREAM, 0);
 	if (soc < 0){
@@ -47,8 +44,8 @@ void Server::start(ClientHandler& ch)throw(const char*){
 									exit(1);
 							}
 	listen(soc,5);
-	std::thread first (&Server::connect,this ,soc);
-	this->t = &first;
+	std::thread t1(con, soc);
+	t1.detach();
 	close(soc);
 }
 
