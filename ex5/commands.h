@@ -9,7 +9,19 @@
 #include <fstream>
 #include <vector>
 #include "HybridAnomalyDetector.h"
+#include <sys/socket.h>
 
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <pthread.h>
+#include <thread>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 using namespace std;
 
 class ReportSpan{
@@ -27,6 +39,45 @@ public:
 	virtual ~DefaultIO(){}
 
 	// you may add additional methods here
+};
+
+class SocketIO:public DefaultIO {
+
+public:
+  int s; //socket
+  SocketIO(int s):s(s), // change the des to const
+  DefaultIO(){}
+      string read() {
+        string clientInput="";
+        char c=0;
+        ::read(this->s,&c,sizeof(char));
+         while(c!='\n'){
+             clientInput+=c;
+             ::read(this->s,&c,sizeof(char));
+         }
+         return clientInput;
+        }
+    	 void write(string text) {
+         ::write(this->s,text.c_str(),text.length());
+         //write(this->s, text, 256);
+       }
+	void write(float f) {
+      ::write(this->s,std::to_string(f).c_str(),std::to_string(f).length());
+      //write(this->s, f, 8);
+  }
+	     void read(float* f) {
+
+         string clientInput="";
+	       char c=0;
+	       ::read(this->s,&c,sizeof(char));
+	        while(c!='\n'){
+		          clientInput+=c;
+		          ::read(this->s,&c,sizeof(char));
+	        }
+         *f = std::stof(clientInput);
+         return;
+       }
+	 ~SocketIO(){}
 };
 
 // you may add here helper classes
