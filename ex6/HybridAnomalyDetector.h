@@ -11,6 +11,8 @@ public:
 	HybridAnomalyDetector();
 	virtual ~HybridAnomalyDetector();
 
+	virtual void learnHelper(const TimeSeries& ts,float p/*pearson*/,string f1, string f2,Point** ps);
+	virtual bool isAnomalous(float x, float y,correlatedFeatures c);
 };
 
 #endif /* HYBRIDANOMALYDETECTOR_H_ */

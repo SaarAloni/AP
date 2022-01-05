@@ -2,6 +2,8 @@
 #ifndef ANOMALYDETECTORUTIL_H_
 #define ANOMALYDETECTORUTIL_H_
 
+#include <stdlib.h>
+#include <math.h>
 
 float avg(float* x, int size);
 
@@ -29,6 +31,7 @@ class Point{
 public:
 	float x,y;
 	Point(float x, float y):x(x),y(y){}
+	 Point():x(0),y(0){}
 };
 
 // performs a linear regression and returns the line equation

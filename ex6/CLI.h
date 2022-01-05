@@ -14,6 +14,7 @@ class CLI {
 public:
 	CLI(DefaultIO* dio);
 	void start();
+	Command ** createCommandArray(std::vector<Command *> b);
 	virtual ~CLI();
 };
 

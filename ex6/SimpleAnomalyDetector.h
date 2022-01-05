@@ -1,4 +1,9 @@
-
+/*
+ * SimpleAnomalyDetector.h
+ *
+ *  Created on: 8 ����� 2020
+ *      Author: Eli
+ */
 
 #ifndef SIMPLEANOMALYDETECTOR_H_
 #define SIMPLEANOMALYDETECTOR_H_
@@ -15,23 +20,36 @@ struct correlatedFeatures{
 	float corrlation;
 	Line lin_reg;
 	float threshold;
-	// you can add feilds
+	float cx,cy;
 };
 
 
 class SimpleAnomalyDetector:public TimeSeriesAnomalyDetector{
+protected:
 	vector<correlatedFeatures> cf;
+	float threshold;
 public:
 	SimpleAnomalyDetector();
 	virtual ~SimpleAnomalyDetector();
 
 	virtual void learnNormal(const TimeSeries& ts);
 	virtual vector<AnomalyReport> detect(const TimeSeries& ts);
-
 	vector<correlatedFeatures> getNormalModel(){
 		return cf;
 	}
-	// you can add helper methods
+	void setCorrelationThreshold(float threshold){
+		this->threshold=threshold;
+	}
+	float getthreshold(){
+		return this->threshold;
+	}
+
+	// helper methods
+protected:
+	virtual void learnHelper(const TimeSeries& ts,float p/*pearson*/,string f1, string f2,Point** ps);
+	virtual bool isAnomalous(float x, float y,correlatedFeatures c);
+	Point** toPoints(vector<float> x, vector<float> y);
+	float findThreshold(Point** ps,size_t len,Line rl);
 };
 
 
