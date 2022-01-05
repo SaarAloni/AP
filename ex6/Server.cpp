@@ -12,10 +12,27 @@ Server::Server(int port)throw (const char*) {
 	this->port = port;
 }
 
+void Server::connect(int soc)throw(const char*){
+	int newsoc;
+	socklen_t clilen, cli_addr;
+	while(true) {
+		clilen = sizeof(cli_addr);
+		newsoc = accept(soc, (struct sockaddr *) &cli_addr, &clilen);
+		if (newsoc < 0) {
+			perror("ERROR on accept");
+			exit(1);
+		}
+		SocketIO df(newsoc);
+		CLI cli(&df);
+		cli.start();
+		close(newsoc);
+	}
+}
+
 void Server::start(ClientHandler& ch)throw(const char*){
 	struct sockaddr_in serv_addr;
 	int soc, newsoc;
-	socklen_t clilen, cli_addr;
+	socklen_t clilen;
 	soc =  socket(AF_INET, SOCK_STREAM, 0);
 	if (soc < 0){
 			perror("ERROR opening socket");
@@ -30,15 +47,12 @@ void Server::start(ClientHandler& ch)throw(const char*){
 									exit(1);
 							}
 	listen(soc,5);
-	while(true) {
-		clilen = sizeof(cli_addr);
-		newsoc = accept(soc, (struct sockaddr *) &cli_addr, &clilen);
-		if (newsoc < 0) {
-			perror("ERROR on accept");
-			exit(1);
-		}
-	}
+	std::thread first (&Server::connect,this ,soc);
+	this->t = &first;
+	close(soc);
 }
+
+
 
 void Server::stop(){
 	t->join(); // do not delete this!

@@ -7,7 +7,9 @@
 
 #ifndef SERVER_H_
 #define SERVER_H_
-#include <thread> 
+#include <thread>
+#include "CLI.h"
+#include "commands.h"
 
 using namespace std;
 
@@ -24,6 +26,9 @@ class ClientHandler{
 // edit your AnomalyDetectionHandler class here
 class AnomalyDetectionHandler:public ClientHandler{
 	public:
+    AnomalyDetectionHandler(){
+
+    }
     virtual void handle(int clientID){
 
     }
@@ -36,7 +41,7 @@ class Server {
   int port;
 
 	// you may add data members
-
+void connect(int soc)throw(const char*);
 public:
 	Server(int port) throw (const char*);
 	virtual ~Server();
