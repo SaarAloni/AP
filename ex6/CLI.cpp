@@ -20,7 +20,6 @@ void CLI::start(){
     int i = 0;
     float n;
     do {
-        std::cout << "/* message */" << '\n';
         this->dio->write("Welcome to the Anomaly Detection Server.\n");
         this->dio->write("Please choose an option:\n");
         for (int j = 0; j < 6; j++) {
