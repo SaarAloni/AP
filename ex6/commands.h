@@ -35,6 +35,7 @@ public:
 	virtual string read()=0;
 	virtual void write(string text)=0;
 	virtual void write(float f)=0;
+  virtual void write(int f)=0;
 	virtual void read(float* f)=0;
 	virtual ~DefaultIO(){}
 
@@ -58,10 +59,18 @@ public:
          return clientInput;
         }
     	 void write(string text) {
+         std::cout << text << '\n';
+         std::cout << text.c_str() << '\n';
          ::write(this->s,text.c_str(),text.length());
+         std::cout << "ddd" << '\n';
          //write(this->s, text, 256);
        }
 	void write(float f) {
+    std::cout << std::to_string(f) << '\n';
+      ::write(this->s,std::to_string(f).c_str(),std::to_string(f).length());
+      //write(this->s, f, 8);
+  }
+  void write(int f) {
       ::write(this->s,std::to_string(f).c_str(),std::to_string(f).length());
       //write(this->s, f, 8);
   }
@@ -135,7 +144,7 @@ public:
 				void execute() {
 				    vector<AnomalyReport>* pAnomaly = this->ar;
 				    for(int i = 0; i < pAnomaly->size(); i++) {
-				        this->dio->write(pAnomaly->at(i).timeStep);
+				        this->dio->write((int)(pAnomaly->at(i).timeStep));
 				        this->dio->write("\t" + pAnomaly->at(i).description + "\n");
 				    }
 				    this->dio->write("Done.\n");
