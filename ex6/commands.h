@@ -238,7 +238,7 @@ public:
 							rsServer.push_back(ReportSpan(this->ar->at(this->ar->size()-1).timeStep, this->ar->at(this->ar->size()-1).timeStep));
 						}
 
-            this->dio->write("Please upload your local train CSV file.\n");
+            this->dio->write("Please upload your local anomalies file.\n");
             std::string s = this->dio->read();
             while (s != "done"){
                 std::string input;
