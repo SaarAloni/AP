@@ -66,7 +66,6 @@ public:
          //write(this->s, text, 256);
        }
 	void write(float f) {
-    std::cout << std::to_string(f) << '\n';
       ::write(this->s,std::to_string(f).c_str(),std::to_string(f).length());
       //write(this->s, f, 8);
   }
