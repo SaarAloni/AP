@@ -29,8 +29,8 @@ Please choose an option:
 6.exit
 Please upload your local train CSV file.
 Upload complete.
-True Positive Rate: 0.500000
-False Positive Rate: 0.010000
+True Positive Rate: 0.5
+False Positive Rate: 0.01
 Welcome to the Anomaly Detection Server.
 Please choose an option:
 1.upload a time series csv file

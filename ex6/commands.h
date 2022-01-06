@@ -66,9 +66,8 @@ public:
     //std::string str = std::to_string(f);
     //str.erase(str.find_last_not_of('0') + 1, std::string::npos);
       //::write(this->s,str.c_str(),std::to_string(f).length());
-
       std::ostringstream oss;
-      oss << std::setprecision(8) << std::noshowpoint << f;
+      oss << std::setprecision(3) << std::noshowpoint << f;
       std:: string str = oss.str();
       ::write(this->s,str.c_str(),str.length());
       //write(this->s, f, 8);
