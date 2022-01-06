@@ -88,13 +88,13 @@ void clientSide1(int port,string outputFile)throw (const char*){
 
 
 void clientSide2(int port,string outputFile)throw (const char*){
-
+	std::cout << "here" << '\n';
 	int serverFD = initClient(port);
-
 	ofstream out(outputFile);
 	ifstream in("input.txt");
 	string input="";
 	while(input!="6"){
+
 		readMenue(out,serverFD);
 		getline(in,input);
 		writeStr(input,serverFD);
@@ -174,6 +174,7 @@ int main(){
 	}catch(const char* s){
 		cout<<s<<endl;
 	}
+
 	size_t mistakes = check(outputFile1,"expected_output_menu.txt");
 	mistakes += check(outputFile2,"expected_output.txt");
 

@@ -17,6 +17,7 @@ void* con(void *args){
 	struct sockaddr_in serv_addr, cli_addr;
 	int n;
 	while(true) {
+		std::cout << "start" << '\n';
 		clilen = sizeof(cli_addr);
 		sockfd = static_cast<int *>(args);
 		newsockfd = accept(*sockfd, (struct sockaddr *) &cli_addr, &clilen);
@@ -26,7 +27,6 @@ void* con(void *args){
 	 CLI cli(&df);
 	 cli.start();
 	 close(newsockfd);
-	 close(*sockfd);
 	}
 }
 
