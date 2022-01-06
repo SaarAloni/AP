@@ -62,7 +62,6 @@ public:
          std::cout << text << '\n';
          std::cout << text.c_str() << '\n';
          ::write(this->s,text.c_str(),text.length());
-         std::cout << "ddd" << '\n';
          //write(this->s, text, 256);
        }
 	void write(float f) {

@@ -88,13 +88,13 @@ void clientSide1(int port,string outputFile)throw (const char*){
 
 
 void clientSide2(int port,string outputFile)throw (const char*){
-
+	std::cout << "here" << '\n';
 	int serverFD = initClient(port);
-
 	ofstream out(outputFile);
 	ifstream in("input.txt");
 	string input="";
 	while(input!="6"){
+
 		readMenue(out,serverFD);
 		getline(in,input);
 		writeStr(input,serverFD);
@@ -169,7 +169,6 @@ int main(){
 		server.start(adh); // runs on its own thread
 		// let's run 2 clients
 		clientSide1(port,outputFile1);
-		std::cout << "/* message1 */" << '\n';
 		clientSide2(port,outputFile2);
 		server.stop(); // joins the server's thread
 	}catch(const char* s){
