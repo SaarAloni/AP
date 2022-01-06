@@ -18,6 +18,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <thread>
+#include <pthread.h>
 
 using namespace std;
 
@@ -54,6 +55,7 @@ public:
 	virtual ~Server();
 	void start(ClientHandler& ch)throw(const char*);
 	void stop();
+  
 };
 
 #endif /* SERVER_H_ */
